@@ -9,8 +9,9 @@ import {
 } from '@nestjs/common';
 import { ToolsService } from '../../../service/tools/tools.service';
 import { AdminService } from '../../../service/admin/admin.service';
+import { Config } from '../../../config/config';
 
-@Controller('admin/login')
+@Controller(`${Config.adminPath}/login`)
 export class LoginController {
   constructor(
     private toolsService: ToolsService,
@@ -40,7 +41,11 @@ export class LoginController {
       const username: string = body.username;
       let password: string = body.password;
       if (username == '' || password.length < 6) {
-        this.toolsService.error(res, '用户名 或者密码不合法', '/admin/login');
+        this.toolsService.error(
+          res,
+          '用户名 或者密码不合法',
+          `/${Config.adminPath}/login`,
+        );
       } else {
         console.log(req.session.code, code);
         if (code.toUpperCase() == req.session.code.toUpperCase()) {
@@ -51,26 +56,34 @@ export class LoginController {
           });
           if (userResult.length > 0) {
             req.session.userinfo = userResult[0];
-            this.toolsService.success(res, '登录成功', '/admin/main');
+            this.toolsService.success(
+              res,
+              '登录成功',
+              `/${Config.adminPath}/main`,
+            );
           } else {
             this.toolsService.error(
               res,
               '用户名或者密码不正确',
-              '/admin/login',
+              `/${Config.adminPath}/login`,
             );
           }
         } else {
-          this.toolsService.error(res, '验证码不正确', '/admin/login');
+          this.toolsService.error(
+            res,
+            '验证码不正确',
+            `/${Config.adminPath}/login`,
+          );
         }
       }
     } catch (error) {
       console.log(error);
-      res.redirect('/admin/login');
+      res.redirect(`/${Config.adminPath}/login`);
     }
   }
   @Get('loginOut')
   loginOut(@Request() req, @Response() res) {
     req.session.userinfo = null;
-    res.redirect('/admin/login');
+    res.redirect(`/${Config.adminPath}/login`);
   }
 }

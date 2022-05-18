@@ -6,7 +6,7 @@ import * as md5 from 'md5';
 export class ToolsService {
   async getCaptcha() {
     const captcha = svgCaptcha.create({
-      size: 4,
+      size: 2,
       fontSize: 50,
       width: 100,
       height: 32,
