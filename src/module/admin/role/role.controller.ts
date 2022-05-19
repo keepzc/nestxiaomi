@@ -105,8 +105,7 @@ export class RoleController {
   }
   @Get('delete')
   async delete(@Query() query, @Response() res) {
-    const result = await this.roleService.delete({ _id: query.id });
-    console.log(result);
+    await this.roleService.delete({ _id: query.id });
     this.toolsService.success(res, '删除成功', `/${Config.adminPath}/role`);
   }
 }
