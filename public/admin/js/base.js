@@ -5,6 +5,7 @@ $(function () {
 var app = {
   init: function () {
     this.slideToggle();
+    this.confirmDelete();
   },
   resizeIfream: function () {
     //1. 获取浏览器的高度
@@ -14,6 +15,13 @@ var app = {
   slideToggle: function () {
     $('.aside h4').click(function () {
       $(this).siblings('ul').slideToggle();
+    });
+  },
+  //提示是否删除
+  confirmDelete() {
+    $('.delete').click(function () {
+      var flag = confirm('您确定要删除么');
+      return flag;
     });
   },
 };
