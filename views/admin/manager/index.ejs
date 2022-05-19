@@ -26,44 +26,35 @@
         <table class="table table-bordered">
           <thead>
             <tr class="th">
-              <th>编号</th>
-              <th>图标</th>
-              <th>名称</th>
-              <th>价格</th>
-              <th>邮费</th>
-
+              <th>管理员名称</th>
+              <th>管理员电话</th>
+              <th>管理员邮箱</th>
+              <th>管理员角色</th>
               <th class="text-center">操作</th>
             </tr>
           </thead>
           <tbody>
 
-            <tr>
-              <td>1</td>
-              <td>图标</td>
-              <td>背包1111111</td>
-              <td>20元</td>
-              <td>10元</td>
-
-              <td class="text-center">修改 删除</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>图标</td>
-              <td>thinpad笔记本电脑</td>
-              <td>20元</td>
-              <td>10元</td>
-
-              <td class="text-center">修改 删除</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>图标</td>
-              <td>iphone7</td>
-              <td>20元</td>
-              <td>10元</td>
-
-              <td class="text-center">修改 删除</td>
-            </tr>
+            <%for(var i=0;i<adminResult.length;i++){%>
+              <tr>
+                <td>
+                  <%=adminResult[i].username%>
+                </td>
+                <td>
+                  <%=adminResult[i].mobile%>
+                </td>
+                <td>
+                  <%=adminResult[i].email%>
+                </td>
+                <td>
+                  <%=adminResult[i].role[0].title%>
+                </td>
+                <td class="text-center">
+                  <a href="/<%=config.adminPath%>/manager/edit?id=<%=adminResult[i]._id%>">修改</a>
+                  <a class="" href="/<%=config.adminPath%>/manager/delete?id=<%=adminResult[i]._id%>">删除</a>
+                </td>
+              </tr>
+              <%}%>
 
           </tbody>
         </table>
