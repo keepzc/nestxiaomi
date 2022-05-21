@@ -37,4 +37,7 @@ export class RoleService {
       return null;
     }
   }
+  getModel() {
+    return this.roleModel;
+  }
 }
