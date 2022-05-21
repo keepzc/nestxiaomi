@@ -8,7 +8,6 @@ import { AdminauthMiddleware } from './middleware/adminauth.middleware';
 import { InitMiddleware } from './middleware/init.middleware';
 //配置全局config
 import { Config } from './config/config';
-
 @Module({
   imports: [
     AdminModule,

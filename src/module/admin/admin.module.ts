@@ -54,5 +54,6 @@ import { AccessController } from './access/access.controller';
     AccessService,
     RoleAccessService,
   ],
+  exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })
 export class AdminModule {}
