@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
-
+import { format } from 'silly-datetime';
 import * as svgCaptcha from 'svg-captcha';
 import * as md5 from 'md5';
+import * as mkdirp from 'mkdirp';
+import { createWriteStream } from 'fs';
+import { join, extname } from 'path';
+import { Config } from '../../config/config';
 @Injectable()
 export class ToolsService {
   async getCaptcha() {
@@ -28,5 +32,32 @@ export class ToolsService {
       message,
       redirectUrl,
     });
+  }
+  getTime() {
+    const d = new Date();
+    return d.getTime();
+  }
+  uploadFile(file) {
+    if (file) {
+      //1. 获取当前日期 年月日
+      const day = format(new Date(), 'YYYYMMDD'); //目录名称
+      const d = this.getTime();
+      //2. 根据日期创建目录
+      const dir = join(__dirname, `../../../public/${Config.uploadDir}`, day);
+      mkdirp.sync(dir);
+      const uploadDir = join(dir, d + extname(file.originalname));
+      //3. 实现上传
+      const writeImage = createWriteStream(uploadDir);
+      writeImage.write(file.buffer);
+      //4. 返回图片保存地址
+      const saveUir = join(
+        Config.uploadDir,
+        day,
+        d + extname(file.originalname),
+      );
+      return saveUir;
+    } else {
+      return '';
+    }
   }
 }

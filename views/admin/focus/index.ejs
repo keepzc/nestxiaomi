@@ -1,0 +1,59 @@
+<%- include ('../public/page_header.ejs')%>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="th">
+              <th>名称</th>
+              <th>分类</th>
+              <th>图片</th>
+              <th>跳转地址</th>
+              <th class="text-center">状态</th>
+
+              <th class="text-center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%for(var i=0;i<focusList.length;i++){%>
+              <tr>
+                <td>
+                  <%=focusList[i].title%>
+                </td>
+                <td>
+                  <%=focusList[i].type%>
+                    <%if(focusList[i].type==1){%>
+                      网站
+                      <%}else if(focusList[i].type==2){%>
+                        App
+                        <%}else{%>
+                          小程序
+                          <%}%>
+                </td>
+                <td><img src="/<%=focusList[i].focus_img%>" width="80" /></td>
+                <td>
+                  <%=focusList[i].link%>
+                </td>
+                <td>
+                  <%=focusList[i].status%>
+                </td>
+                <td class="text-center">
+                  <a href="/<%=config.adminPath%>/focus/edit?id=<%=focusList[i]._id%>">修改</a>
+                  <a class="delete" href="/<%=config.adminPath%>/focus/delete?id=<%=focusList[i]._id%>">删除</a>
+                </td>
+              </tr>
+
+              <%}%>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  </body>
+
+  </html>

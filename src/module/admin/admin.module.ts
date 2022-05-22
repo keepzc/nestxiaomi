@@ -9,12 +9,15 @@ import { AdminSchema } from '../../schema/admin.schema';
 import { RoleSchema } from '../../schema/role.schema';
 import { AccessSchema } from '../../schema/access.schema';
 import { RoleAccessSchema } from '../../schema/role_access.schema';
+import { FocusSchema } from '../../schema/focus.schema';
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
 import { AccessService } from '../../service/access/access.service';
 import { RoleAccessService } from '../../service/role-access/role-access.service';
+import { FocusService } from '../../service/focus/focus.service';
 import { RoleController } from './role/role.controller';
 import { AccessController } from './access/access.controller';
+import { FocusController } from './focus/focus.controller';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -38,6 +41,11 @@ import { AccessController } from './access/access.controller';
         schema: RoleAccessSchema,
         collection: 'role_access',
       },
+      {
+        name: 'Focus',
+        schema: FocusSchema,
+        collection: 'focus',
+      },
     ]),
   ],
   controllers: [
@@ -46,6 +54,7 @@ import { AccessController } from './access/access.controller';
     ManagerController,
     RoleController,
     AccessController,
+    FocusController,
   ],
   providers: [
     ToolsService,
@@ -53,6 +62,7 @@ import { AccessController } from './access/access.controller';
     RoleService,
     AccessService,
     RoleAccessService,
+    FocusService,
   ],
   exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })
