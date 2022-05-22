@@ -56,7 +56,10 @@ export class AdminService {
     if (
       userinfo.is_super == 1 ||
       pathname == 'login/loginOut' ||
-      pathname == 'main/welcome'
+      pathname == 'main/welcome' ||
+      pathname == 'main' ||
+      pathname == 'login' ||
+      pathname == 'login/doLogin'
     ) {
       //超级管理员有所有权限
       return true;
