@@ -28,6 +28,23 @@ var app = {
       return flag;
     });
   },
+  changeStatus(el, model, fields, id) {
+    console.log(el, id);
+    $.get(
+      '/keep/main/changeStatus',
+      { id: id, model: model, fields: fields },
+      function (data) {
+        console.log(data);
+        if (data.success) {
+          if (el.src.indexOf('yes') != -1) {
+            el.src = '/admin/images/no.gif';
+          } else {
+            el.src = '/admin/images/yes.gif';
+          }
+        }
+      },
+    );
+  },
 };
 
 window.onresize = function () {

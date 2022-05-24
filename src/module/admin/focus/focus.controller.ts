@@ -90,4 +90,27 @@ export class FocusController {
     await this.focusService.delete({ _id: query.id });
     this.toolsService.success(res, '删除成功', `/${Config.adminPath}/focus`);
   }
+  @Get('changeStatus')
+  async changeStatus(@Query() query) {
+    //1. 获取要修改数据id
+    //2. 查询当前数据状态
+    //3. 修改状态1-->0
+    const id = query.id;
+    let json;
+    const result = await this.focusService.find({ _id: id });
+    if (result.length > 0) {
+      const status = result[0].status;
+      status == 1 ? (json = { status: 0 }) : (json = { status: 0 });
+      await this.focusService.update({ _id: id }, json);
+      return {
+        success: true,
+        message: '修改成功',
+      };
+    } else {
+      return {
+        success: false,
+        message: '传入参数错误',
+      };
+    }
+  }
 }

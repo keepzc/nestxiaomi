@@ -1,12 +1,14 @@
-import { Controller, Get, Request, Render } from '@nestjs/common';
+import { Controller, Get, Query, Request, Render } from '@nestjs/common';
 import { Config } from '../../../config/config';
 import { AccessService } from '../../../service/access/access.service';
 import { RoleAccessService } from '../../../service/role-access/role-access.service';
+import { FocusService } from '../../../service/focus/focus.service';
 @Controller(`${Config.adminPath}/main`)
 export class MainController {
   constructor(
     private accessService: AccessService,
     private roleAccessService: RoleAccessService,
+    private focusService: FocusService,
   ) {}
 
   @Get()
@@ -59,5 +61,30 @@ export class MainController {
   @Render('admin/main/welcome')
   welcome() {
     return {};
+  }
+  @Get('changeStatus')
+  async changeStatus(@Query() query) {
+    //1. 获取要修改数据id
+    //2. 查询当前数据状态
+    //3. 修改状态1-->0
+    const id = query.id;
+    let json;
+    const model = query.model + 'Service'; //要操作的service
+    const fields = query.fields; //要修改的字段 status
+    const result = await this[model].find({ _id: id });
+    if (result.length > 0) {
+      const tmpFields = result[0][fields];
+      tmpFields == 1 ? (json = { [fields]: 0 }) : (json = { [fields]: 1 });
+      await this[model].update({ _id: id }, json);
+      return {
+        success: true,
+        message: '修改成功',
+      };
+    } else {
+      return {
+        success: false,
+        message: '传入参数错误',
+      };
+    }
   }
 }

@@ -23,25 +23,31 @@
                   <%=focusList[i].title%>
                 </td>
                 <td>
-                  <%=focusList[i].type%>
-                    <%if(focusList[i].type==1){%>
-                      网站
-                      <%}else if(focusList[i].type==2){%>
-                        App
-                        <%}else{%>
-                          小程序
-                          <%}%>
+                  <%if(focusList[i].type==1){%>
+                    网站
+                    <%}else if(focusList[i].type==2){%>
+                      App
+                      <%}else{%>
+                        小程序
+                        <%}%>
                 </td>
                 <td><img src="/<%=focusList[i].focus_img%>" width="80" /></td>
                 <td>
                   <%=focusList[i].link%>
                 </td>
-                <td>
-                  <%=focusList[i].status%>
+                <td align="center">
+                  <%if(focusList[i].status==1){%>
+                    <img onclick="app.changeStatus(this,'focus','status','<%=focusList[i]._id%>')"
+                      src="/admin/images/yes.gif">
+                    <%}else{%>
+                      <img onclick="app.changeStatus(this,'focus','status','<%=focusList[i]._id%>')"
+                        src="/admin/images/no.gif">
+                      <%}%>
                 </td>
                 <td class="text-center">
                   <a href="/<%=config.adminPath%>/focus/edit?id=<%=focusList[i]._id%>">修改</a>
-                  <a class="delete" href="/<%=config.adminPath%>/focus/delete?id=<%=focusList[i]._id%>">删除</a>
+                  <%=config.adminPath%>
+                    <a class="delete" href="/<%=config.adminPath%>/focus/delete?id=<%=focusList[i]._id%>">删除</a>
                 </td>
               </tr>
 
