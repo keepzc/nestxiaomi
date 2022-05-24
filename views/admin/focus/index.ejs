@@ -11,6 +11,7 @@
               <th>分类</th>
               <th>图片</th>
               <th>跳转地址</th>
+              <th class="text-center">排序</th>
               <th class="text-center">状态</th>
 
               <th class="text-center">操作</th>
@@ -34,6 +35,12 @@
                 <td><img src="/<%=focusList[i].focus_img%>" width="80" /></td>
                 <td>
                   <%=focusList[i].link%>
+                </td>
+                <td align="center">
+                  <span onclick="app.editNum(this,'focus','sort','<%=focusList[i]._id%>')">
+                    <%=focusList[i].sort%>
+                  </span>
+
                 </td>
                 <td align="center">
                   <%if(focusList[i].status==1){%>

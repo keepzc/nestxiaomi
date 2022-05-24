@@ -90,6 +90,7 @@ export class FocusController {
     await this.focusService.delete({ _id: query.id });
     this.toolsService.success(res, '删除成功', `/${Config.adminPath}/focus`);
   }
+  //更新状态
   @Get('changeStatus')
   async changeStatus(@Query() query) {
     //1. 获取要修改数据id

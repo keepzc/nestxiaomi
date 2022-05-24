@@ -87,4 +87,31 @@ export class MainController {
       };
     }
   }
+  //更新数量
+  @Get('editNum')
+  async editNum(@Query() query) {
+    //1. 获取要修改数据id
+    //2. 查询当前数据状态
+    //3. 修改状态1-->0
+    const id = query.id;
+    const model = query.model + 'Service'; //要操作的service
+    const fields = query.fields; //要修改的字段 status
+    const num = query.num;
+    const result = await this[model].find({ _id: id });
+    if (result.length > 0) {
+      const json = {
+        [fields]: num,
+      };
+      await this[model].update({ _id: id }, json);
+      return {
+        success: true,
+        message: '修改成功',
+      };
+    } else {
+      return {
+        success: false,
+        message: '传入参数错误',
+      };
+    }
+  }
 }
