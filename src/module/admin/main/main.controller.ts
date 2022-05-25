@@ -3,12 +3,16 @@ import { Config } from '../../../config/config';
 import { AccessService } from '../../../service/access/access.service';
 import { RoleAccessService } from '../../../service/role-access/role-access.service';
 import { FocusService } from '../../../service/focus/focus.service';
+import { GoodsTypeService } from '../../../service/goods-type/goods-type.service';
+import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute/goods-type-attribute.service';
 @Controller(`${Config.adminPath}/main`)
 export class MainController {
   constructor(
     private accessService: AccessService,
     private roleAccessService: RoleAccessService,
     private focusService: FocusService,
+    private goodsTypeService: GoodsTypeService,
+    private goodsTypeAttributeService: GoodsTypeAttributeService,
   ) {}
 
   @Get()

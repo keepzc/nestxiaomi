@@ -5,8 +5,9 @@ $(function () {
 var app = {
   init: function () {
     this.slideToggle();
-    this.confirmDelete();
     this.resizeIframe();
+
+    this.confirmDelete();
   },
   resizeIframe: function () {
     //1、获取浏览器的高度
@@ -21,20 +22,18 @@ var app = {
       $(this).siblings('ul').slideToggle();
     });
   },
-  //提示是否删除
+  // 提示是否删除
   confirmDelete() {
     $('.delete').click(function () {
-      var flag = confirm('您确定要删除么');
+      var flag = confirm('您确定要删除吗?');
       return flag;
     });
   },
   changeStatus(el, model, fields, id) {
-    console.log(el, id);
     $.get(
       '/keep/main/changeStatus',
       { id: id, model: model, fields: fields },
       function (data) {
-        console.log(data);
         if (data.success) {
           if (el.src.indexOf('yes') != -1) {
             el.src = '/admin/images/no.gif';
@@ -49,7 +48,7 @@ var app = {
     /*
 		1、获取el里面的值  var val=$(el).html();
 
-  
+
 		2、创建一个input的dom节点   var input=$("<input value='' />");
 
 
@@ -75,13 +74,15 @@ var app = {
 
 			})
 		*/
+
     var val = $(el).html();
-    var input = $("<input value='' />").css('width', '120px');
+    var input = $("<input value='' />");
     $(input).click(function () {
       return false;
     });
     $(el).html(input);
     $(input).trigger('focus').val(val);
+
     $(input).blur(function () {
       var num = $(this).val();
       $(el).html(num);
@@ -97,5 +98,5 @@ var app = {
 };
 
 window.onresize = function () {
-  app.resizeIfream();
+  app.resizeIframe();
 };
