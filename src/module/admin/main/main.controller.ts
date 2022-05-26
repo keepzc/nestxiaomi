@@ -5,6 +5,7 @@ import { RoleAccessService } from '../../../service/role-access/role-access.serv
 import { FocusService } from '../../../service/focus/focus.service';
 import { GoodsTypeService } from '../../../service/goods-type/goods-type.service';
 import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute/goods-type-attribute.service';
+import { GoodsCateService } from '../../../service/goods-cate/goods-cate.service';
 @Controller(`${Config.adminPath}/main`)
 export class MainController {
   constructor(
@@ -13,6 +14,7 @@ export class MainController {
     private focusService: FocusService,
     private goodsTypeService: GoodsTypeService,
     private goodsTypeAttributeService: GoodsTypeAttributeService,
+    private goodsCateService: GoodsCateService,
   ) {}
 
   @Get()

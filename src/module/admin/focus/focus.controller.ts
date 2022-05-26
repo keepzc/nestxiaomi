@@ -10,10 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ToolsService } from '../../../service/tools/tools.service';
-import {
-  FileInterceptor,
-  NestExpressApplication,
-} from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { FocusService } from '../../../service/focus/focus.service';
 import { Config } from '../../../config/config';
 @Controller(`${Config.adminPath}/focus`)

@@ -12,6 +12,7 @@ import { RoleAccessSchema } from '../../schema/role_access.schema';
 import { FocusSchema } from '../../schema/focus.schema';
 import { GoodsTypeSchema } from '../../schema/goods_type.schema';
 import { GoodsTypeAttributeSchema } from '../../schema/goods_type_attribute.schema';
+import { GoodsCateSchema } from '../../schema/goods_cate.schema';
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
 import { AccessService } from '../../service/access/access.service';
@@ -19,11 +20,13 @@ import { RoleAccessService } from '../../service/role-access/role-access.service
 import { FocusService } from '../../service/focus/focus.service';
 import { GoodsTypeService } from '../../service/goods-type/goods-type.service';
 import { GoodsTypeAttributeService } from '../../service/goods-type-attribute/goods-type-attribute.service';
+import { GoodsCateService } from '../../service/goods-cate/goods-cate.service';
 import { RoleController } from './role/role.controller';
 import { AccessController } from './access/access.controller';
 import { FocusController } from './focus/focus.controller';
 import { GoodsTypeController } from './goods-type/goods-type.controller';
 import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-attribute.controller';
+import { GoodsCateController } from './goods-cate/goods-cate.controller';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -62,6 +65,11 @@ import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-
         schema: GoodsTypeAttributeSchema,
         collection: 'goods_type_attribute',
       },
+      {
+        name: 'GoodsCate',
+        schema: GoodsCateSchema,
+        collection: 'goods_cate',
+      },
     ]),
   ],
   controllers: [
@@ -73,6 +81,7 @@ import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-
     FocusController,
     GoodsTypeController,
     GoodsTypeAttributeController,
+    GoodsCateController,
   ],
   providers: [
     ToolsService,
@@ -83,6 +92,7 @@ import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-
     FocusService,
     GoodsTypeService,
     GoodsTypeAttributeService,
+    GoodsCateService,
   ],
   exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })
