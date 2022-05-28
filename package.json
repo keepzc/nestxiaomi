@@ -28,6 +28,7 @@
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.8",
     "express-session": "^1.17.3",
+    "jimp": "^0.16.1",
     "md5": "^2.3.0",
     "mkdirp": "^1.0.4",
     "mongoose": "^6.3.3",

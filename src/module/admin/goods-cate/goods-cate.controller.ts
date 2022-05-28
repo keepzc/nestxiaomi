@@ -14,6 +14,7 @@ import { GoodsCateService } from '../../../service/goods-cate/goods-cate.service
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ToolsService } from '../../../service/tools/tools.service';
 import { Config } from '../../../config/config';
+
 @Controller(`${Config.adminPath}/goodsCate`)
 export class GoodsCateController {
   constructor(
@@ -56,7 +57,7 @@ export class GoodsCateController {
   @UseInterceptors(FileInterceptor('cate_img'))
   async doAdd(@Body() body, @UploadedFile() file, @Response() res) {
     const pid = body.pid;
-    const saveDir = this.toolsService.uploadFile(file);
+    const { saveDir, uploadDir } = this.toolsService.uploadFile(file);
     try {
       if (pid != 0) {
         body.pid = new mongoose.Types.ObjectId(pid); //注意
@@ -67,6 +68,11 @@ export class GoodsCateController {
           cate_img: saveDir,
         }),
       );
+      if (uploadDir) {
+        //缩略图
+        this.toolsService.jimpImg(uploadDir);
+      }
+
       this.toolsService.success(
         res,
         '新增商品分类成功',
@@ -88,7 +94,6 @@ export class GoodsCateController {
     try {
       const cateList = await this.goodsCateService.find({ pid: '0' });
       const result = await this.goodsCateService.find({ _id: query.id });
-      console.log(result);
       return {
         cateList: cateList,
         list: result[0],
@@ -107,13 +112,17 @@ export class GoodsCateController {
     }
     try {
       if (file) {
-        const saveDir = this.toolsService.uploadFile(file);
+        const { saveDir, uploadDir } = this.toolsService.uploadFile(file);
         await this.goodsCateService.update(
           { _id: id },
           Object.assign(body, {
             cate_img: saveDir,
           }),
         );
+        //生成缩略图
+        if (uploadDir) {
+          this.toolsService.jimpImg(uploadDir);
+        }
       } else {
         await this.goodsCateService.update({ _id: id }, body);
       }

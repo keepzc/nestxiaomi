@@ -5,6 +5,8 @@ import * as md5 from 'md5';
 import * as mkdirp from 'mkdirp';
 import { createWriteStream } from 'fs';
 import { join, extname } from 'path';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Jimp = require('jimp');
 import { Config } from '../../config/config';
 @Injectable()
 export class ToolsService {
@@ -50,14 +52,38 @@ export class ToolsService {
       const writeImage = createWriteStream(uploadDir);
       writeImage.write(file.buffer);
       //4. 返回图片保存地址
-      const saveUir = join(
+      const saveDir = join(
         Config.uploadDir,
         day,
         d + extname(file.originalname),
       );
-      return saveUir;
+      return {
+        saveDir,
+        uploadDir,
+      };
     } else {
-      return '';
+      return {
+        saveDir: '',
+        uploadDir: '',
+      };
     }
+  }
+  jimpImg(target) {
+    Jimp.read(target, (err, lenna) => {
+      if (err) throw err;
+      lenna
+        .resize(200, 200) // resize
+        .quality(80) // set JPEG quality
+        // .greyscale() // set greyscale
+        .write(target + '_200x200' + extname(target)); // save
+    });
+    Jimp.read(target, (err, lenna) => {
+      if (err) throw err;
+      lenna
+        .resize(100, 100) // resize
+        .quality(80) // set JPEG quality
+        // .greyscale() // set greyscale
+        .write(target + '_100x100' + extname(target)); // save
+    });
   }
 }
