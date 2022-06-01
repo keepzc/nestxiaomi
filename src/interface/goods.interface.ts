@@ -1,0 +1,29 @@
+export interface GoodsInterface {
+  _id?: string;
+  title?: string;
+  sub_title?: string;
+  goods_sn?: string;
+  cate_id?: string;
+  click_count?: number;
+  goods_number?: number;
+  shop_price?: number;
+  market_price?: number;
+  relation_goods?: string;
+  goods_attrs?: string;
+  goods_version?: string;
+  goods_img?: string;
+  goods_gift?: string;
+  goods_fitting?: string;
+  goods_color?: string;
+  goods_keywords?: string;
+  goods_desc?: string;
+  goods_content?: string;
+  sort?: number;
+  is_delete?: number;
+  is_hot?: number;
+  is_best?: number;
+  is_new?: number;
+  goods_type_id?: number;
+  status?: number;
+  add_time?: number;
+}

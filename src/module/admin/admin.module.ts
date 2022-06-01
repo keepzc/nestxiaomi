@@ -13,6 +13,8 @@ import { FocusSchema } from '../../schema/focus.schema';
 import { GoodsTypeSchema } from '../../schema/goods_type.schema';
 import { GoodsTypeAttributeSchema } from '../../schema/goods_type_attribute.schema';
 import { GoodsCateSchema } from '../../schema/goods_cate.schema';
+import { GoodsSchema } from '../../schema/goods.schema';
+import { GoodsColorSchema } from '../../schema/goods_color.schema';
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
 import { AccessService } from '../../service/access/access.service';
@@ -21,12 +23,15 @@ import { FocusService } from '../../service/focus/focus.service';
 import { GoodsTypeService } from '../../service/goods-type/goods-type.service';
 import { GoodsTypeAttributeService } from '../../service/goods-type-attribute/goods-type-attribute.service';
 import { GoodsCateService } from '../../service/goods-cate/goods-cate.service';
+import { GoodsService } from '../../service/goods/goods.service';
+import { GoodsColorService } from '../../service/goods-color/goods-color.service';
 import { RoleController } from './role/role.controller';
 import { AccessController } from './access/access.controller';
 import { FocusController } from './focus/focus.controller';
 import { GoodsTypeController } from './goods-type/goods-type.controller';
 import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-attribute.controller';
 import { GoodsCateController } from './goods-cate/goods-cate.controller';
+import { GoodsController } from './goods/goods.controller';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -70,6 +75,16 @@ import { GoodsCateController } from './goods-cate/goods-cate.controller';
         schema: GoodsCateSchema,
         collection: 'goods_cate',
       },
+      {
+        name: 'Goods',
+        schema: GoodsSchema,
+        collection: 'goods',
+      },
+      {
+        name: 'GoodsColor',
+        schema: GoodsColorSchema,
+        collection: 'goods_color',
+      },
     ]),
   ],
   controllers: [
@@ -82,6 +97,7 @@ import { GoodsCateController } from './goods-cate/goods-cate.controller';
     GoodsTypeController,
     GoodsTypeAttributeController,
     GoodsCateController,
+    GoodsController,
   ],
   providers: [
     ToolsService,
@@ -93,6 +109,8 @@ import { GoodsCateController } from './goods-cate/goods-cate.controller';
     GoodsTypeService,
     GoodsTypeAttributeService,
     GoodsCateService,
+    GoodsService,
+    GoodsColorService,
   ],
   exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })

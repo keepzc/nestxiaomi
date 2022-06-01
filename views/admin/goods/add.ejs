@@ -1,0 +1,164 @@
+<%- include ('../public/page_header.ejs')%>
+  <link href="/admin/wysiwyg-editor/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+
+  <script type="text/javascript" src="/admin/wysiwyg-editor/js/froala_editor.pkgd.min.js"></script>
+  <script type="text/javascript" src="/admin/wysiwyg-editor/js/zh_cn.js"></script>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          增加商品
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive input-form goods_content">
+            <form action="/<%=config.adminPath%>/goods/doAdd" method="post" enctype="multipart/form-data">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" role="tab" data-toggle="tab">通用信息</a></li>
+                <li role="presentation"><a href="#detail" role="tab" data-toggle="tab">详细描述</a></li>
+                <li role="presentation"><a href="#mix" role="tab" data-toggle="tab">商品属性</a></li>
+                <li role="presentation"><a href="#attribute" role="tab" data-toggle="tab">规格与包装</a></li>
+                <li role="presentation"><a href="#photo" role="tab" data-toggle="tab">商品相册</a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                  <ul class="form_input">
+                    <li> <span> 商品标题:</span> <input type="text" name="title" class="input" /></li>
+                    <li> <span> 附属标题:</span> <input type="text" name="sub_title" class="input" /></li>
+                    <li> <span>商品版本:</span> <input type="text" name="goods_version" class="input" /></li>
+                    <li> <span>所属分类:</span>
+                      <select name="cate_id" id="cate_id">
+                        <%for(var i=0;i<goodsCate.length;i++){%>
+                          <option value="<%=goodsCate[i]._id%>">
+                            <%=goodsCate[i].title%>
+                          </option>
+                          <%for(var j=0;j<goodsCate[i].items.length;j++){%>
+                            <option value="<%=goodsCate[i].items[j]._id%>">
+                              ----<%=goodsCate[i].items[j].title%>
+                            </option>
+                            <%}%>
+                              <%}%>
+                      </select>
+
+                    </li>
+                    <li> <span> 商品图片:</span> <input type="file" name="pic" /></li>
+                    <li> <span>商品价格:</span> <input type="text" name="price" /></li>
+                    <li> <span>商品原价:</span> <input type="text" name="old_price" /></li>
+
+                    <li> <span>商品状态:</span>　<input type="radio" value="1" name="status" checked /> 显示 　
+                      <input type="radio" value="0" name="status" /> 隐藏
+                    </li>
+
+                    <li> <span>加入推荐:</span>　<input type="checkbox" value="1" name="is_best" /> 精品
+                      <input type="checkbox" value="1" name="is_hot" /> 热销
+                      <input type="checkbox" value="1" name="is_new" /> 新品
+                    </li>
+                  </ul>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="detail">
+
+                  <textarea name="content" id="content" cols="100" rows="8"></textarea>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="mix">
+
+                  <ul class="form_input">
+
+                    <li> <span>商品颜色:</span>
+                      <%for(var i=0;i<goodsColor.length;i++){%>
+                        <input type="checkbox" name="goods_color[]" value="<%=goodsColor[i].color_value%>"
+                          id="color_<%=goodsColor[i]._id%>" /> <label for="color_<%=goodsColor[i]._id%>">
+                          <%=goodsColor[i].color_name%>
+                        </label>
+                        <%}%>
+                    </li>
+                    <li> <span>关联商品:</span>
+
+                      <input type="text" name="relation_goods" class="relation_goods" /> <i>填写关联商品的id 多个以逗号隔开
+                        格式：23,24,39</i>
+
+                    </li>
+                    <li> <span>关联赠品:</span>
+
+                      <input type="text" name="goods_gift" class="goods_gift" /> <i>可为空 格式：23-2,39-5 说明：例如23-2
+                        中的23表示商品id,2表示商品数量</i>
+
+                    </li>
+                    <li> <span>关联配件:</span>
+
+                      <input type="text" name="goods_fitting" class="goods_fitting" /> <i>可为空 格式：23-2,39-5 说明：例如23-2
+                        中的23表示商品id,2表示商品数量</i>
+
+                    </li>
+
+
+                    <li> <span>更多属性:</span>
+
+                      <input type="text" name="goods_attr" class="goods_attr" /> <i> 格式: 颜色:红色,白色,黄色 | 尺寸:41,42,43</i>
+
+                    </li>
+                  </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="attribute">
+                  <ul class="form_input">
+
+                    <li> <span>商品类型:　</span>
+
+                      <select name="goods_type_id" id="goods_type_id">
+
+                        <option value="0">--请选择商品类型--</option>
+                        <%for(var i=0;i<goodsType.length;i++){%>
+                          <option value="<%=goodsType[i]._id%>">
+                            <%=goodsType[i].title%>
+                          </option>
+                          <%}%>
+                      </select>
+
+                    </li>
+
+                  </ul>
+                  <ul class="form_input" id="goods_type_attribute">
+
+
+
+                  </ul>
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="photo">
+
+                  商品相册
+                </div>
+              </div>
+
+
+
+              <button type="submit" class="btn btn-success goods_content_btn">提交</button>
+
+
+
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    new FroalaEditor('#content', {
+      height: 300,
+      language: 'zh_cn',
+      toolbarButtons: [['undo', 'redo'], ['bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 'outdent', 'indent', 'clearFormatting', 'insertTable', 'html']],
+      toolbarButtonsXS: [['undo', 'redo'], ['bold', 'italic', 'underline']],
+      imageUploadURL: '/<%=config.adminPath%>/goods/doUpload'
+
+    });
+  </script>
+  </body>
+
+  </html>
