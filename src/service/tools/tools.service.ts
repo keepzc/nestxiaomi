@@ -73,16 +73,15 @@ export class ToolsService {
       if (err) throw err;
       lenna
         .resize(200, 200) // resize
-        .quality(80) // set JPEG quality
-        // .greyscale() // set greyscale
+        .quality(90) // set JPEG quality
         .write(target + '_200x200' + extname(target)); // save
     });
+
     Jimp.read(target, (err, lenna) => {
       if (err) throw err;
       lenna
         .resize(100, 100) // resize
-        .quality(80) // set JPEG quality
-        // .greyscale() // set greyscale
+        .quality(90) // set JPEG quality
         .write(target + '_100x100' + extname(target)); // save
     });
   }

@@ -185,13 +185,12 @@
     })
 
     $(function () {
-      //上传图库
+
       $('#photoUploader').diyUpload({
         url: '/<%=config.adminPath%>/goods/doImageUpload',
         success: function (response) {
           var photoStr = '<input type="hidden" name="goods_image_list[]" value=' + response.link + ' />';
           $('#photoList').append(photoStr);
-
         },
         error: function (err) {
           console.info(err);
