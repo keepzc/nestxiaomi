@@ -13,9 +13,11 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ToolsService } from '../../../service/tools/tools.service';
 import { GoodsService } from '../../../service/goods/goods.service';
 import { GoodsCateService } from '../../../service/goods-cate/goods-cate.service';
-import { GoodsColorService } from '../../../service//goods-color/goods-color.service';
+import { GoodsColorService } from '../../../service/goods-color/goods-color.service';
 import { GoodsTypeService } from '../../../service/goods-type/goods-type.service';
 import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute/goods-type-attribute.service';
+import { GoodsAttrService } from '../../../service/goods-attr/goods-attr.service';
+import { GoodsImageService } from '../../../service/goods-image/goods-image.service';
 import { Config } from '../../../config/config';
 @Controller(`${Config.adminPath}/goods`)
 export class GoodsController {
@@ -26,6 +28,8 @@ export class GoodsController {
     private goodsTypeService: GoodsTypeService,
     private goodsColorService: GoodsColorService,
     private goodsTypeAttributeService: GoodsTypeAttributeService,
+    private goodsAttrService: GoodsAttrService,
+    private goodsImageService: GoodsImageService,
   ) {}
 
   @Get()
@@ -95,10 +99,11 @@ export class GoodsController {
   @UseInterceptors(FileInterceptor('goods_img'))
   async doAdd(@UploadedFile() file, @Body() body) {
     console.log(body);
-    // const { saveDir } = this.toolsService.uploadFile(file);
+    const { saveDir } = this.toolsService.uploadFile(file);
     // return {
     //   link: '/' + saveDir,
     // };
+    console.log(saveDir);
     return body;
   }
 }

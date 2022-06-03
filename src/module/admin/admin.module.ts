@@ -15,6 +15,8 @@ import { GoodsTypeAttributeSchema } from '../../schema/goods_type_attribute.sche
 import { GoodsCateSchema } from '../../schema/goods_cate.schema';
 import { GoodsSchema } from '../../schema/goods.schema';
 import { GoodsColorSchema } from '../../schema/goods_color.schema';
+import { GoodsAttrSchema } from '../../schema/goods_attr.schema';
+import { GoodsImageSchema } from '../../schema/goods_image.schema';
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
 import { AccessService } from '../../service/access/access.service';
@@ -25,6 +27,8 @@ import { GoodsTypeAttributeService } from '../../service/goods-type-attribute/go
 import { GoodsCateService } from '../../service/goods-cate/goods-cate.service';
 import { GoodsService } from '../../service/goods/goods.service';
 import { GoodsColorService } from '../../service/goods-color/goods-color.service';
+import { GoodsAttrService } from '../../service/goods-attr/goods-attr.service';
+import { GoodsImageService } from '../../service/goods-image/goods-image.service';
 import { RoleController } from './role/role.controller';
 import { AccessController } from './access/access.controller';
 import { FocusController } from './focus/focus.controller';
@@ -85,6 +89,16 @@ import { GoodsController } from './goods/goods.controller';
         schema: GoodsColorSchema,
         collection: 'goods_color',
       },
+      {
+        name: 'GoodsAttr',
+        schema: GoodsAttrSchema,
+        collection: 'goods_attr',
+      },
+      {
+        name: 'GoodsImage',
+        schema: GoodsImageSchema,
+        collection: 'goods_image',
+      },
     ]),
   ],
   controllers: [
@@ -111,6 +125,8 @@ import { GoodsController } from './goods/goods.controller';
     GoodsCateService,
     GoodsService,
     GoodsColorService,
+    GoodsAttrService,
+    GoodsImageService,
   ],
   exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })
