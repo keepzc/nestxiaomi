@@ -15,6 +15,7 @@ import { GoodsService } from '../../../service/goods/goods.service';
 import { GoodsCateService } from '../../../service/goods-cate/goods-cate.service';
 import { GoodsColorService } from '../../../service//goods-color/goods-color.service';
 import { GoodsTypeService } from '../../../service/goods-type/goods-type.service';
+import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute/goods-type-attribute.service';
 import { Config } from '../../../config/config';
 @Controller(`${Config.adminPath}/goods`)
 export class GoodsController {
@@ -24,6 +25,7 @@ export class GoodsController {
     private goodsCateService: GoodsCateService,
     private goodsTypeService: GoodsTypeService,
     private goodsColorService: GoodsColorService,
+    private goodsTypeAttributeService: GoodsTypeAttributeService,
   ) {}
 
   @Get()
@@ -64,13 +66,39 @@ export class GoodsController {
       goodsType: goodsTypeRes,
     };
   }
-
-  @Post('doUpload')
+  //富文本编辑器上传 图库上传
+  @Post('doImageUpload')
   @UseInterceptors(FileInterceptor('file'))
-  async doUpload(@UploadedFile() file) {
-    const { saveDir } = this.toolsService.uploadFile(file);
+  async doImageUpload(@UploadedFile() file) {
+    const { saveDir, uploadDir } = this.toolsService.uploadFile(file);
+    //缩略图
+    if (uploadDir) {
+      this.toolsService.jimpImg(uploadDir);
+    }
     return {
       link: '/' + saveDir,
     };
+  }
+  //获取商品类型属性
+  @Get('getGoodsTypeAttribute')
+  async getGoodsTypeAttribute(@Query() query) {
+    const cate_id = query.cate_id;
+    const goodsTypeAttrResult = await this.goodsTypeAttributeService.find({
+      cate_id: cate_id,
+    });
+    return {
+      result: goodsTypeAttrResult,
+    };
+  }
+  //执行增加
+  @Post('doAdd')
+  @UseInterceptors(FileInterceptor('goods_img'))
+  async doAdd(@UploadedFile() file, @Body() body) {
+    console.log(body);
+    // const { saveDir } = this.toolsService.uploadFile(file);
+    // return {
+    //   link: '/' + saveDir,
+    // };
+    return body;
   }
 }

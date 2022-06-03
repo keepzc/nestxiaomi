@@ -221,3 +221,13 @@ input[type='file'] {
 .goods_image_list li .color_list {
   margin-top: 20px;
 }
+
+/*配置上传*/
+.photoUploader div:nth-child(2) {
+  width: 100% !important;
+  height: 100% !important;
+}
+.photoUploader {
+  width: 120px;
+  margin: 40px auto 20px auto;
+}
