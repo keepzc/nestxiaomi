@@ -19,6 +19,7 @@ import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute
 import { GoodsAttrService } from '../../../service/goods-attr/goods-attr.service';
 import { GoodsImageService } from '../../../service/goods-image/goods-image.service';
 import { Config } from '../../../config/config';
+import * as mongoose from 'mongoose';
 @Controller(`${Config.adminPath}/goods`)
 export class GoodsController {
   constructor(
@@ -318,5 +319,37 @@ export class GoodsController {
       '修改商品成功',
       `/${Config.adminPath}/goods`,
     );
+  }
+  @Get('changeGoodsImageColor')
+  async changeGoodsImageColor(@Query() query) {
+    let color_id = query.color_id;
+    const goods_image_id = query.goods_image_id;
+    if (color_id) {
+      color_id = new mongoose.Types.ObjectId(color_id);
+    }
+    const res = await this.goodsImageService.update(
+      {
+        _id: goods_image_id,
+      },
+      { color_id: color_id },
+    );
+    if (res) {
+      return { success: true, message: '更新数据成功' };
+    } else {
+      return { success: false, message: '更新数据失败' };
+    }
+  }
+  @Get('removeGoodsImage')
+  async removeGoodsImage(@Query() query) {
+    const goods_image_id = query.goods_image_id;
+
+    const result = await this.goodsImageService.delete({
+      _id: goods_image_id,
+    });
+    if (result) {
+      return { success: true, message: '删除数据成功' };
+    } else {
+      return { success: false, message: '删除数据失败' };
+    }
   }
 }
