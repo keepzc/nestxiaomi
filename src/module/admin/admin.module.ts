@@ -18,6 +18,7 @@ import { GoodsColorSchema } from '../../schema/goods_color.schema';
 import { GoodsAttrSchema } from '../../schema/goods_attr.schema';
 import { GoodsImageSchema } from '../../schema/goods_image.schema';
 import { NavSchema } from '../../schema/nav.schema';
+import { SettingSchema } from '../../schema/setting.schema';
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
 import { AccessService } from '../../service/access/access.service';
@@ -30,6 +31,7 @@ import { GoodsService } from '../../service/goods/goods.service';
 import { GoodsColorService } from '../../service/goods-color/goods-color.service';
 import { GoodsAttrService } from '../../service/goods-attr/goods-attr.service';
 import { GoodsImageService } from '../../service/goods-image/goods-image.service';
+import { SettingService } from '../../service/setting/setting.service';
 import { NavService } from '../../service/nav/nav.service';
 import { RoleController } from './role/role.controller';
 import { AccessController } from './access/access.controller';
@@ -39,6 +41,7 @@ import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-
 import { GoodsCateController } from './goods-cate/goods-cate.controller';
 import { GoodsController } from './goods/goods.controller';
 import { NavController } from './nav/nav.controller';
+import { SettingController } from './setting/setting.controller';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -107,6 +110,11 @@ import { NavController } from './nav/nav.controller';
         schema: NavSchema,
         collection: 'nav',
       },
+      {
+        name: 'Setting',
+        schema: SettingSchema,
+        collection: 'setting',
+      },
     ]),
   ],
   controllers: [
@@ -121,6 +129,7 @@ import { NavController } from './nav/nav.controller';
     GoodsCateController,
     GoodsController,
     NavController,
+    SettingController,
   ],
   providers: [
     ToolsService,
@@ -137,6 +146,7 @@ import { NavController } from './nav/nav.controller';
     GoodsAttrService,
     GoodsImageService,
     NavService,
+    SettingService,
   ],
   exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })
