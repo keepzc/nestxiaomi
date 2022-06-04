@@ -1,39 +1,118 @@
 <%- include ('../public/page_header.ejs')%>
 
-<div class="panel panel-default">              
+  <div class="panel panel-default">
     <div class="panel-heading">
-        <a href="/<%=config.adminPath%>/goods/add" class="btn btn-primary">增加商品</a>
+      <a href="/<%=config.adminPath%>/goods/add" class="btn btn-primary">增加商品</a>
     </div>
     <div class="panel-body">
-<!--
+      <!--
 列表展示
 -->
-    <div class="table-responsive">
+      <div class="table-responsive">
         <table class="table table-bordered">
-            <thead>                                   
+          <thead>
             <tr class="th">
-                <th>商品名称</th>
-                <th>货号</th>
-                <th>价格</th>  
-                <th>点击量</th>
-                <th>上架</th>
-
-                <th>精品</th>
-                <th>新品</th>
-                <th>热销</th>
-                <th>推荐排序</th>
-                <th>库存</th>                             
-                <th class="text-center">操作</th>
+              <th>商品名称</th>
+              <th>价格</th>
+              <th>点击量</th>
+              <th>上架</th>
+              <th>精品</th>
+              <th>新品</th>
+              <th>热销</th>
+              <th>推荐排序</th>
+              <th>库存</th>
+              <th class="text-center">操作</th>
             </tr>
-            </thead>
-            <tbody>
-                    商品列表
-            </tbody>
+          </thead>
+          <tbody>
+            <%for(var i=0;i<goodsList.length;i++){%>
+              <tr>
+                <td>
+                  <%=goodsList[i].title%>
+                </td>
+                <td>
+                  <%=goodsList[i].shop_price%>
+                </td>
+                <td>
+                  <%=goodsList[i].click_count%>
+                </td>
+
+                <td class="text-center">
+
+                  <%if(goodsList[i].status==1){%>
+                    <img src="/admin/images/yes.gif"
+                      onclick="app.changeStatus(this,'goods','status','<%=goodsList[i]._id%>')" />
+
+                    <%}else{%>
+                      <img src="/admin/images/no.gif"
+                        onclick="app.changeStatus(this,'goods','status','<%=goodsList[i]._id%>')" />
+                      <%}%>
+
+
+                </td>
+
+                <td class="text-center">
+
+                  <%if(goodsList[i].is_best==1){%>
+                    <img src="/admin/images/yes.gif"
+                      onclick="app.changeStatus(this,'goods','is_best','<%=goodsList[i]._id%>')" />
+
+                    <%}else{%>
+                      <img src="/admin/images/no.gif"
+                        onclick="app.changeStatus(this,'goods','is_best','<%=goodsList[i]._id%>')" />
+                      <%}%>
+
+
+
+                </td>
+
+                <td class="text-center">
+                  <%if(goodsList[i].is_new==1){%>
+                    <img src="/admin/images/yes.gif"
+                      onclick="app.changeStatus(this,'goods','is_new','<%=goodsList[i]._id%>')" />
+
+                    <%}else{%>
+                      <img src="/admin/images/no.gif"
+                        onclick="app.changeStatus(this,'goods','is_new','<%=goodsList[i]._id%>')" />
+                      <%}%>
+
+                </td>
+
+                <td class="text-center">
+                  <%if(goodsList[i].is_hot==1){%>
+                    <img src="/admin/images/yes.gif"
+                      onclick="app.changeStatus(this,'goods','is_hot','<%=goodsList[i]._id%>')" />
+
+                    <%}else{%>
+                      <img src="/admin/images/no.gif"
+                        onclick="app.changeStatus(this,'goods','is_hot','<%=goodsList[i]._id%>')" />
+                      <%}%>
+
+                </td>
+
+
+                <td class="text-center"><span onclick="app.editNum(this,'goods','sort','<%=goodsList[i]._id%>')">
+                    <%=goodsList[i].sort%>
+                  </span></td>
+
+
+                <td class="text-center"><span
+                    onclick="app.editNum(this,'goods','goods_number','<%=goodsList[i]._id%>')">
+                    <%=goodsList[i].goods_number%>
+                  </span></td>
+
+
+                <td class="text-center"><a href="/<%=config.adminPath%>/goods/edit?id=<%=goodsList[i]._id%>">修改</a>　　<a
+                    class="delete" href="/<%=config.adminPath%>/delete?id=<%=goodsList[i]._id%>&model=Goods">删除</a></td>
+              </tr>
+              <%}%>
+          </tbody>
         </table>
+      </div>
     </div>
-</div>
-</div>
+  </div>
 
 
-</body>
-</html>
+  </body>
+
+  </html>

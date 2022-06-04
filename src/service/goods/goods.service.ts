@@ -37,6 +37,14 @@ export class GoodsService {
       return null;
     }
   }
+  async deleteMany(json: GoodsInterface) {
+    try {
+      const result = await this.goodsModel.deleteMany(json);
+      return result;
+    } catch (error) {
+      return null;
+    }
+  }
   getModel() {
     return this.goodsModel;
   }

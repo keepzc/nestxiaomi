@@ -35,9 +35,11 @@ export class GoodsController {
   @Get()
   @Render('admin/goods/index')
   async index() {
-    const result = await this.goodsService.find({});
+    //分页 搜索商品数据
+
+    const goodsResult = await this.goodsService.find({});
     return {
-      goodsList: result,
+      goodsList: goodsResult,
     };
   }
 
@@ -45,7 +47,7 @@ export class GoodsController {
   @Render('admin/goods/add')
   async add() {
     //1. 获取商品分类
-    const goodscateRes = await this.goodsCateService.getModel().aggregate([
+    const goodsCateRes = await this.goodsCateService.getModel().aggregate([
       {
         $lookup: {
           from: 'goods_cate',
@@ -65,7 +67,7 @@ export class GoodsController {
     //3. 获取商品类型
     const goodsTypeRes = await this.goodsTypeService.find({});
     return {
-      goodsCate: goodscateRes,
+      goodsCate: goodsCateRes,
       goodsColor: goodsColorsRes,
       goodsType: goodsTypeRes,
     };
@@ -74,11 +76,11 @@ export class GoodsController {
   @Post('doImageUpload')
   @UseInterceptors(FileInterceptor('file'))
   async doUpload(@UploadedFile() file) {
-    const { saveDir } = this.toolsService.uploadFile(file);
+    const { saveDir, uploadDir } = this.toolsService.uploadFile(file);
     //缩略图
-    // if (uploadDir) {
-    //   this.toolsService.jimpImg(uploadDir);
-    // }
+    if (uploadDir) {
+      this.toolsService.jimpImg(uploadDir);
+    }
     return { link: '/' + saveDir };
   }
   //获取商品类型属性
@@ -132,7 +134,7 @@ export class GoodsController {
         //把获取到值保存到goods_attr表中
         await this.goodsAttrService.add({
           goods_id: result._id,
-          goods_cate_id: goodsTypeAttrResult[0].cate_id,
+          goods_cate_id: result.goods_cate_id,
           attribute_id: attr_id_list[i],
           attribute_type: goodsTypeAttrResult[0].attr_type,
           attribute_title: goodsTypeAttrResult[0].title,
@@ -143,6 +145,177 @@ export class GoodsController {
     this.toolsService.success(
       res,
       '新增商品成功',
+      `/${Config.adminPath}/goods`,
+    );
+  }
+  @Get('edit')
+  @Render('admin/goods/edit')
+  async edit(@Query() query) {
+    /*
+        1、获取商品数据
+
+        2、获取商品分类
+
+        3、获取所有颜色 以及选中的颜色
+
+        4、商品的图库信息
+
+        5、获取商品类型
+
+        6、获取规格信息
+      */
+    //1、获取商品数据
+    const goodsResult = await this.goodsService.find({ _id: query.id });
+
+    //2、获取商品分类
+    const goodsCateResult = await this.goodsCateService.getModel().aggregate([
+      {
+        $lookup: {
+          from: 'goods_cate',
+          localField: '_id',
+          foreignField: 'pid',
+          as: 'items',
+        },
+      },
+      {
+        $match: {
+          pid: '0',
+        },
+      },
+    ]);
+    //3. 获取所有颜色 以及选中的颜色
+    let goodsColorResult = await this.goodsColorService.find({});
+    //goodsColorResult 不可改变对象 可以通过序列反序列化来改变
+    goodsColorResult = JSON.parse(JSON.stringify(goodsColorResult));
+    if (goodsResult[0].goods_color) {
+      const tempColorArr = goodsResult[0].goods_color.split(',');
+      for (let i = 0; i < goodsColorResult.length; i++) {
+        if (tempColorArr.indexOf(goodsColorResult[i]._id.toString()) != -1) {
+          goodsColorResult[i].checked = true;
+        }
+      }
+    }
+    //4、商品的图库信息
+    const goodsImageResult = await this.goodsImageService.find({
+      goods_id: goodsResult[0]._id,
+    });
+    //5. 获取商品类型
+    const goodsTypeResult = await this.goodsTypeService.find({});
+    //6、获取规格信息 商品规格属性
+    const goodsAttrResult = await this.goodsAttrService.find({
+      goods_id: goodsResult[0]._id,
+    });
+    //拼接表单
+    let goodsAttrStr = '';
+    goodsAttrResult.forEach(async (val) => {
+      if (val.attribute_type == 1) {
+        goodsAttrStr += `<li><span>${val.attribute_title}: 　</span><input type="hidden" name="attr_id_list" value="${val.attribute_id}" />  <input type="text" name="attr_value_list"  value="${val.attribute_value}" /></li>`;
+      } else if (val.attribute_type == 2) {
+        goodsAttrStr += `<li><span>${val.attribute_title}: 　</span><input type="hidden" name="attr_id_list" value="${val.attribute_id}" />  <textarea cols="50" rows="3" name="attr_value_list">${val.attribute_value}</textarea></li>`;
+      } else {
+        // 获取 attr_value  获取可选值列表
+        const oneGoodsTypeAttributeResult =
+          await this.goodsTypeAttributeService.find({
+            _id: val.attribute_id,
+          });
+
+        const arr = oneGoodsTypeAttributeResult[0].attr_value.split('\n');
+
+        goodsAttrStr += `<li><span>${val.attribute_title}: 　</span><input type="hidden" name="attr_id_list" value="${val.attribute_id}" />`;
+
+        goodsAttrStr += '<select name="attr_value_list">';
+
+        for (let j = 0; j < arr.length; j++) {
+          if (arr[j] == val.attribute_value) {
+            goodsAttrStr += `<option value="${arr[j]}" selected >${arr[j]}</option>`;
+          } else {
+            goodsAttrStr += `<option value="${arr[j]}" >${arr[j]}</option>`;
+          }
+        }
+        goodsAttrStr += '</select>';
+        goodsAttrStr += '</li>';
+      }
+    });
+    console.log(goodsAttrStr, 'goodsAttr');
+    return {
+      goodsCate: goodsCateResult,
+      goodsColor: goodsColorResult,
+      goodsType: goodsTypeResult,
+      goods: goodsResult[0],
+      goodsAttr: goodsAttrStr,
+      goodsImage: goodsImageResult,
+    };
+  }
+  //执行修改
+  @Post('doEdit')
+  @UseInterceptors(FileInterceptor('goods_img'))
+  async doEdit(@Body() body, @UploadedFile() file, @Response() res) {
+    console.log(body);
+
+    //1、修改商品数据
+    const goods_id = body._id;
+    //注意 goods_color的类型
+    if (body.goods_color && typeof body.goods_color !== 'string') {
+      body.goods_color = body.goods_color.join(',');
+    }
+
+    if (file) {
+      const { saveDir } = this.toolsService.uploadFile(file);
+      await this.goodsService.update(
+        {
+          _id: goods_id,
+        },
+        Object.assign(body, {
+          goods_img: saveDir,
+        }),
+      );
+    } else {
+      await this.goodsService.update(
+        {
+          _id: goods_id,
+        },
+        body,
+      );
+    }
+
+    //2、修改图库数据 （增加）
+
+    const goods_image_list = body.goods_image_list;
+    if (goods_id && goods_image_list && typeof goods_image_list !== 'string') {
+      for (let i = 0; i < goods_image_list.length; i++) {
+        await this.goodsImageService.add({
+          goods_id: goods_id,
+          img_url: goods_image_list[i],
+        });
+      }
+    }
+
+    // 3、修改商品类型属性数据         1、删除当前商品id对应的类型属性  2、执行增加
+
+    // 3.1 删除当前商品id对应的类型属性
+    await this.goodsAttrService.deleteMany({ goods_id: goods_id });
+
+    // 3.2 执行增加
+    const attr_id_list = body.attr_id_list;
+    const attr_value_list = body.attr_value_list;
+    if (goods_id && attr_id_list && typeof attr_id_list !== 'string') {
+      for (let i = 0; i < attr_id_list.length; i++) {
+        //获取当前 商品类型id对应的商品类型属性
+        const goodsTypeAttributeResult =
+          await this.goodsTypeAttributeService.find({ _id: attr_id_list[i] });
+        await this.goodsAttrService.add({
+          goods_id: goods_id,
+          goods_cate_id: body.goods_cate_id, //分类id
+          attribute_id: attr_id_list[i],
+          attribute_type: goodsTypeAttributeResult[0].attr_type,
+          attribute_title: goodsTypeAttributeResult[0].title,
+          attribute_value: attr_value_list[i],
+        });
+      }
+    }
+    this.toolsService.success(
+      res,
+      '修改商品成功',
       `/${Config.adminPath}/goods`,
     );
   }

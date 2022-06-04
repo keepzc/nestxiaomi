@@ -12,11 +12,12 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          增加商品
+          修改商品
         </div>
         <div class="panel-body">
           <div class="table-responsive input-form goods_content">
-            <form action="/<%=config.adminPath%>/goods/doAdd" method="post" enctype="multipart/form-data">
+            <form action="/<%=config.adminPath%>/goods/doEdit" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="_id" value="<%=goods._id%>">
               <!-- Nav tabs -->
               <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#general" role="tab" data-toggle="tab">通用信息</a></li>
@@ -29,41 +30,60 @@
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="general">
                   <ul class="form_input">
-                    <li> <span> 商品标题:</span> <input type="text" name="title" class="input" /></li>
-                    <li> <span> 附属标题:</span> <input type="text" name="sub_title" class="input" /></li>
-                    <li> <span>商品版本:</span> <input type="text" name="goods_version" class="input" /></li>
+                    <li> <span> 商品标题:</span>
+                      <input type="text" name="title" class="input" value="<%=goods.title%>" />
+                    </li>
+                    <li> <span> 附属标题:</span>
+                      <input type="text" name="sub_title" class="input" value="<%=goods.sub_title%>" />
+                    </li>
+                    <li> <span>商品版本:</span>
+                      <input type="text" name="goods_version" class="input" value="<%=goods.goods_version%>" />
+                    </li>
                     <li> <span>所属分类:</span>
                       <select name="cate_id" id="cate_id">
                         <%for(var i=0;i<goodsCate.length;i++){%>
-                          <option value="<%=goodsCate[i]._id%>">
-                            <%=goodsCate[i].title%>
+                          <option value="<%=goodsCate[i]._id%>"
+                            <%if(goods.cate_id.toString()==goodsCate[i]._id.toString()){%>selected<%}%> >
+                              <%=goodsCate[i].title%>
                           </option>
                           <%for(var j=0;j<goodsCate[i].items.length;j++){%>
-                            <option value="<%=goodsCate[i].items[j]._id%>">
-                              ----<%=goodsCate[i].items[j].title%>
+                            <option value="<%=goodsCate[i].items[j]._id%>"
+                              <%if(goods.cate_id.toString()==goodsCate[i].items[j]._id.toString()){%>selected<%}%> >
+                                ----<%=goodsCate[i].items[j].title%>
                             </option>
                             <%}%>
                               <%}%>
                       </select>
 
                     </li>
-                    <li> <span> 商品图片:</span> <input type="file" name="goods_img" /></li>
-                    <li> <span>商品价格:</span> <input type="text" name="shop_price" /></li>
-                    <li> <span>商品原价:</span> <input type="text" name="market_price" /></li>
-
-                    <li> <span>商品状态:</span>　<input type="radio" value="1" name="status" checked /> 显示 　
-                      <input type="radio" value="0" name="status" /> 隐藏
+                    <li> <span> 商品图片:</span>
+                      <input type="file" name="goods_img" />
+                      <br>
+                      <img class="pic" src="/<%=goods.goods_img%>" />
+                    </li>
+                    <li> <span>商品价格:</span>
+                      <input type="text" name="shop_price" value="<%=goods.shop_price%>" />
+                    </li>
+                    <li> <span>商品原价:</span>
+                      <input type="text" name="market_price" value="<%=goods.market_price%>" />
                     </li>
 
-                    <li> <span>加入推荐:</span>　<input type="checkbox" value="1" name="is_best" /> 精品
-                      <input type="checkbox" value="1" name="is_hot" /> 热销
-                      <input type="checkbox" value="1" name="is_new" /> 新品
+
+                    <li> <span>商品状态:</span>　
+                      <input type="radio" value="1" name="status" <%if(goods.status==1){%> checked <%}%> /> 显示 　
+                        <input type="radio" value="0" name="status" <%if(goods.status==0){%> checked <%}%> /> 隐藏
+                    </li>
+
+                    <li> <span>加入推荐:</span>　
+                      <input type="checkbox" value="1" name="is_best" <%if(goods.is_best==1){%> checked <%}%> /> 精品
+                        <input type="checkbox" value="1" name="is_hot" <%if(goods.is_hot==1){%> checked <%}%> /> 热销
+                          <input type="checkbox" value="1" name="is_new" <%if(goods.is_new==1){%> checked <%}%> /> 新品
                     </li>
                   </ul>
 
                 </div>
                 <div role="tabpanel" class="tab-pane" id="detail">
-                  <textarea name="goods_content" id="content" cols="100" rows="8"></textarea>
+                  <textarea name="goods_content" id="content" cols="100" rows="8"><%=goods.goods_content%></textarea>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="mix">
 
@@ -72,44 +92,49 @@
                     <li> <span>商品颜色:</span>
                       <%for(var i=0;i<goodsColor.length;i++){%>
                         <input type="checkbox" name="goods_color[]" value="<%=goodsColor[i]._id%>"
-                          id="color_<%=goodsColor[i]._id%>" /> <label for="color_<%=goodsColor[i]._id%>">
-                          <%=goodsColor[i].color_name%>
-                        </label>
-                        <%}%>
+                          <%if(goodsColor[i].checked){%> checked <%}%>
+                          id="color_<%=goodsColor[i]._id%>" />
+                            <label for="color_<%=goodsColor[i]._id%>">
+                              <%=goodsColor[i].color_name%>
+                            </label>
+                            <%}%>
                     </li>
                     <li> <span>关联商品:</span>
 
-                      <input type="text" name="relation_goods" class="relation_goods" /> <i>填写关联商品的id 多个以逗号隔开
-                        格式：23,24,39</i>
+                      <input type="text" name="relation_goods" class="input" value="<%=goods.relation_goods%>" />
+                      <i>填写关联商品的id 多个以逗号隔开 格式：23,24,39</i>
 
                     </li>
+
                     <li> <span>关联赠品:</span>
 
-                      <input type="text" name="goods_gift" class="goods_gift" /> <i>可为空 格式：23-2,39-5 说明：例如23-2
-                        中的23表示商品id,2表示商品数量</i>
+                      <input type="text" name="goods_gift" class="input" value="<%=goods.goods_gift%>" /> <i>可为空
+                        格式：23-2,39-5 说明：例如23-2 中的23表示商品id,2表示商品数量</i>
 
                     </li>
                     <li> <span>关联配件:</span>
 
-                      <input type="text" name="goods_fitting" class="goods_fitting" /> <i>可为空 格式：23-2,39-5 说明：例如23-2
-                        中的23表示商品id,2表示商品数量</i>
+                      <input type="text" name="goods_fitting" class="input" value="<%=goods.goods_fitting%>" /> <i>可为空
+                        格式：23-2,39-5 说明：例如23-2 中的23表示商品id,2表示商品数量</i>
 
                     </li>
 
 
                     <li> <span>更多属性:</span>
 
-                      <input type="text" name="goods_attrs" class="goods_attrs" /> <i> 格式: 颜色:红色,白色,黄色 | 尺寸:41,42,43</i>
+                      <input type="text" name="goods_attrs" class="input" value="<%=goods.goods_attrs%>" /> <i> 格式:
+                        颜色:红色,白色,黄色 | 尺寸:41,42,43</i>
 
                     </li>
+
                     <li> <span>Seo关键词:</span>
 
-                      <input type="text" name="goods_keywords" class="input" />
+                      <input type="text" name="goods_keywords" class="input" value="<%=goods.goods_keywords%>" />
 
                     </li>
 
                     <li> <span>Seo描述:</span>
-                      <textarea name="goods_desc" id="goods_desc" cols="100" rows="2"></textarea>
+                      <textarea name="goods_desc" id="goods_desc" cols="100" rows="2"><%=goods.goods_desc%></textarea>
 
                     </li>
                   </ul>
@@ -123,8 +148,9 @@
 
                         <option value="0">--请选择商品类型--</option>
                         <%for(var i=0;i<goodsType.length;i++){%>
-                          <option value="<%=goodsType[i]._id%>">
-                            <%=goodsType[i].title%>
+                          <option value="<%=goodsType[i]._id%>" <%if(goods.goods_type_id &&
+                            goods.goods_type_id.toString()==goodsType[i]._id.toString()){%>selected<%}%>>
+                              <%=goodsType[i].title%>
                           </option>
                           <%}%>
                       </select>
@@ -133,10 +159,38 @@
 
                   </ul>
                   <ul class="form_input" id="goods_type_attribute">
+                    <%-goodsAttr%>
                   </ul>
 
                 </div>
                 <div role="tabpanel" class="tab-pane" id="photo">
+                  <div id="goods_image">
+                    <ul id="goods_image_list" class="goods_image_list clear">
+
+                      <%for(var i=0;i<goodsImage.length;i++){%>
+                        <li>
+                          <img class="pic" src="<%=goodsImage[i].img_url%>" />
+
+                          <div class="color_list">
+
+                            <select class="relation_goods_color" goods_image_id="<%=goodsImage[i]._id%>">
+                              <option value="0">关联颜色</option>
+
+                              <%for(var j=0;j<goodsColor.length;j++){%>
+
+                                <option value="<%=goodsColor[j]._id%>"
+                                  <%if(goodsImage[i].color_id.toString()==goodsColor[j]._id){%>selected<%}%> >
+                                    <%=goodsColor[j].color_name%>
+                                </option>
+                                <%}%>
+                            </select>
+                          </div>
+
+                          <div class="goods_image_delete" goods_image_id="<%=goodsImage[i]._id%>"></div>
+                        </li>
+                        <%}%>
+                    </ul>
+                  </div>
                   <div class="photoUploader" id="photoUploader"></div>
                   <div class="photoList" id="photoList">
                   </div>

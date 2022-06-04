@@ -64,7 +64,7 @@ export const GoodsSchema = new Schema({
     type: Number,
   },
   goods_type_id: {
-    type: { type: Schema.Types.ObjectId },
+    type: Schema.Types.Mixed,
   },
   status: { type: Number, default: 1 },
   add_time: {

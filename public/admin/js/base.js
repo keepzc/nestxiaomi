@@ -78,12 +78,12 @@ var app = {
 
     var val = $(el).html();
     var input = $("<input value='' />");
+
+    $(el).html(input);
+    $(input).trigger('focus').val(val);
     $(input).click(function () {
       return false;
     });
-    $(el).html(input);
-    $(input).trigger('focus').val(val);
-
     $(input).blur(function () {
       var num = $(this).val();
       $(el).html(num);
