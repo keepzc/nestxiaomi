@@ -17,6 +17,7 @@ import { GoodsSchema } from '../../schema/goods.schema';
 import { GoodsColorSchema } from '../../schema/goods_color.schema';
 import { GoodsAttrSchema } from '../../schema/goods_attr.schema';
 import { GoodsImageSchema } from '../../schema/goods_image.schema';
+import { NavSchema } from '../../schema/nav.schema';
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
 import { AccessService } from '../../service/access/access.service';
@@ -29,6 +30,7 @@ import { GoodsService } from '../../service/goods/goods.service';
 import { GoodsColorService } from '../../service/goods-color/goods-color.service';
 import { GoodsAttrService } from '../../service/goods-attr/goods-attr.service';
 import { GoodsImageService } from '../../service/goods-image/goods-image.service';
+import { NavService } from '../../service/nav/nav.service';
 import { RoleController } from './role/role.controller';
 import { AccessController } from './access/access.controller';
 import { FocusController } from './focus/focus.controller';
@@ -36,6 +38,7 @@ import { GoodsTypeController } from './goods-type/goods-type.controller';
 import { GoodsTypeAttributeController } from './goods-type-attribute/goods-type-attribute.controller';
 import { GoodsCateController } from './goods-cate/goods-cate.controller';
 import { GoodsController } from './goods/goods.controller';
+import { NavController } from './nav/nav.controller';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -99,6 +102,11 @@ import { GoodsController } from './goods/goods.controller';
         schema: GoodsImageSchema,
         collection: 'goods_image',
       },
+      {
+        name: 'Nav',
+        schema: NavSchema,
+        collection: 'nav',
+      },
     ]),
   ],
   controllers: [
@@ -112,6 +120,7 @@ import { GoodsController } from './goods/goods.controller';
     GoodsTypeAttributeController,
     GoodsCateController,
     GoodsController,
+    NavController,
   ],
   providers: [
     ToolsService,
@@ -127,6 +136,7 @@ import { GoodsController } from './goods/goods.controller';
     GoodsColorService,
     GoodsAttrService,
     GoodsImageService,
+    NavService,
   ],
   exports: [AdminService, RoleService, AccessService, RoleAccessService],
 })

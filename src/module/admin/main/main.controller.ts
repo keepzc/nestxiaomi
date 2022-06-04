@@ -7,6 +7,7 @@ import { GoodsTypeService } from '../../../service/goods-type/goods-type.service
 import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute/goods-type-attribute.service';
 import { GoodsCateService } from '../../../service/goods-cate/goods-cate.service';
 import { GoodsService } from '../../../service/goods/goods.service';
+import { NavService } from '../../../service/nav/nav.service';
 @Controller(`${Config.adminPath}/main`)
 export class MainController {
   constructor(
@@ -17,6 +18,7 @@ export class MainController {
     private goodsTypeAttributeService: GoodsTypeAttributeService,
     private goodsCateService: GoodsCateService,
     private goodsService: GoodsService,
+    private navService: NavService,
   ) {}
 
   @Get()
