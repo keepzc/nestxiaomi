@@ -8,6 +8,7 @@ import { AdminauthMiddleware } from './middleware/adminauth.middleware';
 import { InitMiddleware } from './middleware/init.middleware';
 //配置全局config
 import { Config } from './config/config';
+import { PublicModule } from './module/public/public.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Config } from './config/config';
         useNewUrlParser: true,
       },
     ),
+    PublicModule,
   ],
   controllers: [],
   providers: [],
