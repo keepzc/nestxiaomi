@@ -6,6 +6,18 @@
       <a href="/<%=config.adminPath%>/goods/add" class="btn btn-primary">增加商品</a>
     </div>
     <div class="panel-body">
+      <form role="form" class="form-inline" method="get" action="/<%=config.adminPath%>/goods">
+        <div class="form-group">
+          <label for="name">输入关键词</label>
+          <input type="text" class="form-control" value="<%=keyword%>" id="keyword" name="keyword" placeholder="请输入名称">
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">开始搜索</button>
+        </div>
+      </form>
+    </div>
+    <div class="panel-body">
       <!--
 列表展示
 -->
@@ -125,7 +137,7 @@
       currentPage: <%=currentPage %>,
       onPageChange: function (num, type) {
         if (type == 'change') {
-          location.href = "/<%=config.adminPath%>/goods?page=" + num;
+          location.href = "/<%=config.adminPath%>/goods?page=" + num + "&keyword=<%=keyword%>";
         }
       }
     });

@@ -38,17 +38,30 @@ export class GoodsController {
   @Render('admin/goods/index')
   async index(@Query() query) {
     //分页 搜索商品数据
+    const keyword = query.keyword;
+    //查询 条件
+    let json = {};
+    if (keyword) {
+      json = Object.assign(json, { title: { $regex: new RegExp(keyword) } });
+    }
+    //多个查询条件继续写
+    // if (cateName) {
+    //   json = Object.assign(json, {
+    //     cate_name: { $regex: new RegExp(cateName) },
+    //   });
+    // }
     const currentPage = query.page || 1;
     const pageSize = 5;
     const skip = (currentPage - 1) * pageSize;
-    const goodsResult = await this.goodsService.find({}, skip, pageSize);
-    const count = await this.goodsService.count({});
+    const goodsResult = await this.goodsService.find(json, skip, pageSize);
+    const count = await this.goodsService.count(json);
     //totalPages
     const totalPages = Math.ceil(count / pageSize);
     return {
       goodsList: goodsResult,
       currentPage: currentPage,
       totalPages: totalPages,
+      keyword: keyword,
     };
   }
 
