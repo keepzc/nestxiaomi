@@ -1,5 +1,6 @@
 <%- include ('../public/page_header.ejs')%>
-
+  <!--引入分页插件-->
+  <script type="text/javascript" src="/admin/js/jqPaginator.js"></script>
   <div class="panel panel-default">
     <div class="panel-heading">
       <a href="/<%=config.adminPath%>/goods/add" class="btn btn-primary">增加商品</a>
@@ -102,16 +103,34 @@
                   </span></td>
 
 
-                <td class="text-center"><a href="/<%=config.adminPath%>/goods/edit?id=<%=goodsList[i]._id%>">修改</a>　　<a
-                    class="delete" href="/<%=config.adminPath%>/delete?id=<%=goodsList[i]._id%>&model=Goods">删除</a></td>
+                <td class="text-center">
+                  <a href="/<%=config.adminPath%>/goods/edit?id=<%=goodsList[i]._id%>">修改</a>　　
+                  <a class="delete" href="/<%=config.adminPath%>/goods/delete?id=<%=goodsList[i]._id%>">删除</a>
+                </td>
               </tr>
               <%}%>
           </tbody>
         </table>
+
+        <div class="pagination" id="pagination">
+
+        </div>
       </div>
     </div>
   </div>
+  <script>
+    $('#pagination').jqPaginator({
+      totalPages: <%=totalPages%>,
+      visiblePages: 10,
+      currentPage: <%=currentPage %>,
+      onPageChange: function (num, type) {
+        if (type == 'change') {
+          location.href = "/<%=config.adminPath%>/goods?page=" + num;
+        }
+      }
+    });
 
+  </script>
 
   </body>
 

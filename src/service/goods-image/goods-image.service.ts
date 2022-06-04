@@ -37,6 +37,14 @@ export class GoodsImageService {
       return null;
     }
   }
+  async deleteMany(json: GoodsImageInterface) {
+    try {
+      const result = await this.GoodsImageModel.deleteMany(json);
+      return result;
+    } catch (error) {
+      return null;
+    }
+  }
   getModel() {
     return this.GoodsImageModel;
   }

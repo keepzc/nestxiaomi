@@ -35,12 +35,19 @@ export class GoodsController {
 
   @Get()
   @Render('admin/goods/index')
-  async index() {
+  async index(@Query() query) {
     //分页 搜索商品数据
-
-    const goodsResult = await this.goodsService.find({});
+    const currentPage = query.page || 1;
+    const pageSize = 5;
+    const skip = (currentPage - 1) * pageSize;
+    const goodsResult = await this.goodsService.find({}, skip, pageSize);
+    const count = await this.goodsService.count({});
+    //totalPages
+    const totalPages = Math.ceil(count / pageSize);
     return {
       goodsList: goodsResult,
+      currentPage: currentPage,
+      totalPages: totalPages,
     };
   }
 
@@ -350,6 +357,23 @@ export class GoodsController {
       return { success: true, message: '删除数据成功' };
     } else {
       return { success: false, message: '删除数据失败' };
+    }
+  }
+  //建议：软删除
+  @Get('delete')
+  async delete(@Query() query, @Response() res) {
+    const result = await this.goodsService.delete({ _id: query.id });
+    if (result.acknowledged) {
+      await this.goodsAttrService.deleteMany({
+        goods_id: query.id,
+      });
+
+      await this.goodsImageService.deleteMany({
+        goods_id: query.id,
+      });
+      this.toolsService.success(res, '删除成功', `/${Config.adminPath}/goods`);
+    } else {
+      this.toolsService.error(res, '删除失败', `/${Config.adminPath}/goods`);
     }
   }
 }
