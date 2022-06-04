@@ -5,6 +5,7 @@ import {
   Post,
   Query,
   Render,
+  Request,
   Response,
   UploadedFile,
   UseInterceptors,
@@ -158,7 +159,7 @@ export class GoodsController {
   }
   @Get('edit')
   @Render('admin/goods/edit')
-  async edit(@Query() query) {
+  async edit(@Query() query, @Request() req) {
     /*
         1、获取商品数据
 
@@ -172,6 +173,8 @@ export class GoodsController {
 
         6、获取规格信息
       */
+    //0. 获取上一页地址 req.prevPage
+
     //1、获取商品数据
     const goodsResult = await this.goodsService.find({ _id: query.id });
 
@@ -252,6 +255,7 @@ export class GoodsController {
       goods: goodsResult[0],
       goodsAttr: goodsAttrStr,
       goodsImage: goodsImageResult,
+      prevPage: req.prevPage, //上一页地址
     };
   }
   //执行修改
@@ -259,7 +263,8 @@ export class GoodsController {
   @UseInterceptors(FileInterceptor('goods_img'))
   async doEdit(@Body() body, @UploadedFile() file, @Response() res) {
     console.log(body);
-
+    //获取上一页传过来地址
+    const prevPage = body.prevPage || `/${Config.adminPath}/goods`;
     //1、修改商品数据
     const goods_id = body._id;
     //注意 goods_color的类型
@@ -321,11 +326,7 @@ export class GoodsController {
         });
       }
     }
-    this.toolsService.success(
-      res,
-      '修改商品成功',
-      `/${Config.adminPath}/goods`,
-    );
+    this.toolsService.success(res, '修改商品成功', prevPage);
   }
   @Get('changeGoodsImageColor')
   async changeGoodsImageColor(@Query() query) {
@@ -361,8 +362,9 @@ export class GoodsController {
   }
   //建议：软删除
   @Get('delete')
-  async delete(@Query() query, @Response() res) {
+  async delete(@Query() query, @Response() res, @Request() req) {
     const result = await this.goodsService.delete({ _id: query.id });
+    const prevPage = req.prevPage || `/${Config.adminPath}/goods`;
     if (result.acknowledged) {
       await this.goodsAttrService.deleteMany({
         goods_id: query.id,
@@ -371,9 +373,9 @@ export class GoodsController {
       await this.goodsImageService.deleteMany({
         goods_id: query.id,
       });
-      this.toolsService.success(res, '删除成功', `/${Config.adminPath}/goods`);
+      this.toolsService.success(res, '删除成功', prevPage);
     } else {
-      this.toolsService.error(res, '删除失败', `/${Config.adminPath}/goods`);
+      this.toolsService.error(res, '删除失败', prevPage);
     }
   }
 }

@@ -18,6 +18,8 @@
           <div class="table-responsive input-form goods_content">
             <form action="/<%=config.adminPath%>/goods/doEdit" method="post" enctype="multipart/form-data">
               <input type="hidden" name="_id" value="<%=goods._id%>">
+              <!--保存上一页地址-->
+              <input type="hidden" name="prevPage" value="<%=prevPage%>">
               <!-- Nav tabs -->
               <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#general" role="tab" data-toggle="tab">通用信息</a></li>
