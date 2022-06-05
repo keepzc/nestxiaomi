@@ -1,43 +1,36 @@
-(function($){
+(function ($) {
+  var app = {
+    init: function () {
+      this.initSwiper();
 
-    var app={
-        init:function(){
-    
-            this.initSwiper();
-
-            this.initNavSlide();
+      this.initNavSlide();
+    },
+    initSwiper: function () {
+      new Swiper('.swiper-container', {
+        loop: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
-        initSwiper:function(){    
-            new Swiper('.swiper-container', {
-                loop : true,
-                navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev'                 
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable :true
-                }
-                
-            });
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
         },
-        initNavSlide:function(){
-             $("#nav_list>li").hover(function(){
+      });
+    },
+    initNavSlide: function () {
+      $('#nav_list>li').hover(
+        function () {
+          $(this).find('.children-list-warp').show();
+        },
+        function () {
+          $(this).find('.children-list-warp').hide();
+        },
+      );
+    },
+  };
 
-                $(this).find('.children-list').show();
-             },function(){
-                $(this).find('.children-list').hide(); 
-             })          
-
-        }
-    }   
-    
-    $(function(){
-    
-    
-        app.init();
-    })
-
-    
-
-})($)
+  $(function () {
+    app.init();
+  });
+})($);

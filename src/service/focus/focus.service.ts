@@ -4,9 +4,9 @@ import { FocusInterface } from '../../interface/focus.interface';
 @Injectable()
 export class FocusService {
   constructor(@InjectModel('Focus') private readonly focusModel) {}
-  async find(json: FocusInterface, fields?: string) {
+  async find(json: FocusInterface, sort = {}, fields?: string) {
     try {
-      return await this.focusModel.find(json, fields);
+      return await this.focusModel.find(json, fields).sort(sort);
     } catch (error) {
       return [];
     }

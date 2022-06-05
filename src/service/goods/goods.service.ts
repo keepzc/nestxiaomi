@@ -12,6 +12,14 @@ export class GoodsService {
       return [];
     }
   }
+
+  async findIn(json, fields?: string) {
+    try {
+      return await this.goodsModel.find(json, fields);
+    } catch (error) {
+      return [];
+    }
+  }
   async count(json: GoodsInterface) {
     try {
       return await this.goodsModel.find(json).count();

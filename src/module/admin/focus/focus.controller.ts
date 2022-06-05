@@ -22,7 +22,7 @@ export class FocusController {
   @Get()
   @Render('admin/focus/index')
   async index() {
-    const result = await this.focusService.find({});
+    const result = await this.focusService.find({}, { sort: -1 });
     return {
       focusList: result,
     };

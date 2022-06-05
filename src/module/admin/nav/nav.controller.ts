@@ -21,9 +21,10 @@ export class NavController {
   @Render('admin/nav/index')
   async index(@Query() query) {
     const currentPage = query.page || 1;
-    const pageSize = 5;
+    const pageSize = 15;
     const skip = (currentPage - 1) * pageSize;
-    const result = await this.navService.find({}, skip, pageSize);
+    const sort = { add_time: -1 };
+    const result = await this.navService.find({}, skip, sort, pageSize);
     const count = await this.navService.count({});
     const totalPages = Math.ceil(count / pageSize);
     return {

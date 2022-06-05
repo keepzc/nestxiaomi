@@ -4,10 +4,20 @@ import { NavInterface } from '../../interface/nav.interface';
 @Injectable()
 export class NavService {
   constructor(@InjectModel('Nav') private readonly navModel) {}
-  async find(json: NavInterface, skip = 0, limit = 0, fields?: string) {
+  async find(
+    json: NavInterface,
+    skip = 0,
+    sort = {},
+    limit = 0,
+    fields?: string,
+  ) {
     //分页查询 算法 db.表名.find().skip((page-1)*pageSize).limit(pageSize)
     try {
-      return await this.navModel.find(json, fields).skip(skip).limit(limit);
+      return await this.navModel
+        .find(json, fields)
+        .skip(skip)
+        .limit(limit)
+        .sort(sort);
     } catch (error) {
       return [];
     }
