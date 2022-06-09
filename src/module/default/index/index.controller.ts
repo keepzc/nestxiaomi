@@ -74,7 +74,7 @@ export class IndexController {
     const phoneResult = await this.goodsService.getCategoryGoods(
       '628f9e83b2ee409d49160e20',
       'hot',
-      10,
+      8,
     );
     //获取tv 分类下子分类 629b77702daaab33f8433baa
     const tvResult = await this.goodsService.getCategoryGoods(
@@ -82,12 +82,12 @@ export class IndexController {
       'hot',
       10,
     );
-    console.log(tvResult);
     return {
       topNav: topNavResult,
       focus: focusResult,
       goodsCate: goodsCateResult,
       middleNav: middleNavResult,
+      phone: phoneResult,
     };
   }
 }

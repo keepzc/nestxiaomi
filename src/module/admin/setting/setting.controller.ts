@@ -38,18 +38,20 @@ export class SettingController {
   async doEdit(@Body() body, @UploadedFiles() files, @Response() res) {
     let updateJson = body;
     if (files.site_logo) {
-      const siteLogoDir = this.toolsService.uploadFile(
+      const { saveDir } = await this.toolsService.uploadFile(
         files.site_logo[0],
-      ).saveDir;
+      );
+      const siteLogoDir = saveDir;
 
       updateJson = Object.assign(updateJson, {
         site_logo: siteLogoDir,
       });
     }
     if (files.no_picture) {
-      const noPictureDir = this.toolsService.uploadFile(
+      const { saveDir } = await this.toolsService.uploadFile(
         files.no_picture[0],
-      ).saveDir;
+      );
+      const noPictureDir = saveDir;
       updateJson = Object.assign(updateJson, {
         no_picture: noPictureDir,
       });

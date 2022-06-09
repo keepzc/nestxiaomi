@@ -39,56 +39,55 @@ export class ToolsService {
     const d = new Date();
     return d.getTime();
   }
-  uploadFile(file) {
-    if (file) {
-      //1. 获取当前日期 年月日
-      const day = format(new Date(), 'YYYYMMDD'); //目录名称
-      const d = this.getTime();
-      //2. 根据日期创建目录
-      const dir = join(__dirname, `../../../public/${Config.uploadDir}`, day);
-      mkdirp.sync(dir);
-      const uploadDir = join(dir, d + extname(file.originalname));
-      //3. 实现上传
-      const writeImage = createWriteStream(uploadDir);
-      writeImage.write(file.buffer);
-      //4. 返回图片保存地址
-      const saveDir = join(
-        Config.uploadDir,
-        day,
-        d + extname(file.originalname),
-      );
-      return {
-        saveDir,
-        uploadDir,
-      };
-    } else {
-      return {
-        saveDir: '',
-        uploadDir: '',
-      };
-    }
+  async uploadFile(file): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (file) {
+        //1. 获取当前日期 年月日
+        const day = format(new Date(), 'YYYYMMDD'); //目录名称
+        const d = this.getTime();
+        //2. 根据日期创建目录
+        const dir = join(__dirname, `../../../public/${Config.uploadDir}`, day);
+        mkdirp.sync(dir);
+        const uploadDir = join(dir, d + extname(file.originalname));
+        //3. 实现上传
+        const writeImage = createWriteStream(uploadDir);
+        writeImage.write(file.buffer);
+        writeImage.end();
+        writeImage.on('finish', () => {
+          //4. 返回图片保存地址
+          const saveDir = join(
+            Config.uploadDir,
+            day,
+            d + extname(file.originalname),
+          );
+          resolve({
+            saveDir,
+            uploadDir,
+          });
+        });
+      } else {
+        resolve({
+          saveDir: '',
+          uploadDir: '',
+        });
+      }
+    });
   }
   jimpImg(target) {
     Jimp.read(target, (err, lenna) => {
       if (err) {
         console.log(err);
       } else {
-        lenna
-          .resize(200, 200) // resize
-          .quality(90) // set JPEG quality
-          // .greyscale() // set greyscale
-          .write(target + '_200x200' + extname(target)); // save
-      }
-    });
-    Jimp.read(target, (err, lenna) => {
-      if (err) {
-        console.log(err);
-      } else {
-        lenna
-          .resize(100, 100) // resize
-          .quality(90) // set JPEG quality
-          // .greyscale() // set greyscale
-          .write(target + '_100x100' + extname(target)); // save
+        for (let i = 0; i < Config.jimpSize.length; i++) {
+          lenna
+            .resize(Config.jimpSize[i].width, Config.jimpSize[i].height)
+            .quality(90) // set JPEG quality
+            .write(
+              `${target}_${Config.jimpSize[i].width}x${
+                Config.jimpSize[i].height
+              }${extname(target)}`,
+            );
+        }
       }
     });
   }

@@ -37,7 +37,11 @@ export class FocusController {
   @Post('doAdd')
   @UseInterceptors(FileInterceptor('focus_img'))
   async doAdd(@Body() body, @UploadedFile() file, @Response() res) {
-    const { saveDir } = this.toolsService.uploadFile(file);
+    const { saveDir, uploadDir } = await this.toolsService.uploadFile(file);
+    //生成缩略图
+    if (uploadDir) {
+      this.toolsService.jimpImg(uploadDir);
+    }
     await this.focusService.add(
       Object.assign(body, {
         focus_img: saveDir,
@@ -66,7 +70,11 @@ export class FocusController {
   async doEdit(@Body() body, @UploadedFile() file, @Response() res) {
     const _id = body._id;
     if (file) {
-      const { saveDir } = this.toolsService.uploadFile(file);
+      const { saveDir, uploadDir } = await this.toolsService.uploadFile(file);
+      //生成缩略图
+      if (uploadDir) {
+        this.toolsService.jimpImg(uploadDir);
+      }
       await this.focusService.update(
         { _id: _id },
         Object.assign(body, {

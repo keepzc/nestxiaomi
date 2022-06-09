@@ -98,7 +98,7 @@ export class GoodsController {
   @Post('doImageUpload')
   @UseInterceptors(FileInterceptor('file'))
   async doUpload(@UploadedFile() file) {
-    const { saveDir, uploadDir } = this.toolsService.uploadFile(file);
+    const { saveDir, uploadDir } = await this.toolsService.uploadFile(file);
     //缩略图
     if (uploadDir) {
       this.toolsService.jimpImg(uploadDir);
@@ -120,7 +120,11 @@ export class GoodsController {
   @Post('doAdd')
   @UseInterceptors(FileInterceptor('goods_img'))
   async doAdd(@UploadedFile() file, @Body() body, @Response() res) {
-    const { saveDir } = this.toolsService.uploadFile(file);
+    const { saveDir, uploadDir } = await this.toolsService.uploadFile(file);
+    //生成缩略图
+    if (uploadDir) {
+      this.toolsService.jimpImg(uploadDir);
+    }
     //1、增加商品数据
     if (body.goods_color && typeof body.goods_color !== 'string') {
       body.goods_color = body.goods_color.join(',');
@@ -286,7 +290,11 @@ export class GoodsController {
     }
 
     if (file) {
-      const { saveDir } = this.toolsService.uploadFile(file);
+      const { saveDir, uploadDir } = await this.toolsService.uploadFile(file);
+      //生成缩略图
+      if (uploadDir) {
+        this.toolsService.jimpImg(uploadDir);
+      }
       await this.goodsService.update(
         {
           _id: goods_id,
