@@ -69,6 +69,10 @@ export class IndexController {
         }
       }
     }
+    //获取手机分类下的子分类
+    const subCateResult = await this.goodsService.find({});
+    //获取子分类热门商品
+
     return {
       topNav: topNavResult,
       focus: focusResult,
