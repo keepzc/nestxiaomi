@@ -60,6 +60,7 @@ export class IndexController {
             {
               _id: { $in: relationIdsArr },
             },
+            10,
             'title goods_img shop_price',
           );
           //4、扩展以前对象的属性
@@ -69,10 +70,19 @@ export class IndexController {
         }
       }
     }
-    //获取手机分类下的子分类
-    const subCateResult = await this.goodsService.find({});
-    //获取子分类热门商品
-
+    //获取手机分类下面的子分类
+    const phoneResult = await this.goodsService.getCategoryGoods(
+      '628f9e83b2ee409d49160e20',
+      'hot',
+      10,
+    );
+    //获取tv 分类下子分类 629b77702daaab33f8433baa
+    const tvResult = await this.goodsService.getCategoryGoods(
+      '629b77702daaab33f8433baa',
+      'hot',
+      10,
+    );
+    console.log(tvResult);
     return {
       topNav: topNavResult,
       focus: focusResult,

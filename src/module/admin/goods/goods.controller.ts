@@ -51,7 +51,7 @@ export class GoodsController {
     //   });
     // }
     const currentPage = query.page || 1;
-    const pageSize = 5;
+    const pageSize = 15;
     const skip = (currentPage - 1) * pageSize;
     const goodsResult = await this.goodsService.find(json, skip, pageSize);
     const count = await this.goodsService.count(json);
