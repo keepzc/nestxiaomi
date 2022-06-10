@@ -12,6 +12,7 @@ import { ProductController } from './product/product.controller';
 import { RedisModule } from 'nestjs-redis';
 import { Config } from '../../config/config';
 import { CacheService } from '../../service/cache/cache.service';
+import { CategoryController } from './category/category.controller';
 @Module({
   imports: [PublicModule, RedisModule.register(Config.redisOptions)],
   providers: [CacheService],
@@ -23,6 +24,7 @@ import { CacheService } from '../../service/cache/cache.service';
     PassController,
     CartController,
     ProductController,
+    CategoryController,
   ],
 })
 export class DefaultModule {}

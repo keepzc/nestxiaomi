@@ -18,9 +18,9 @@ export class GoodsService {
     }
   }
 
-  async findIn(json, limit = 10, fields?: string) {
+  async findIn(json, fields?: string, limit = 10, skip = 0) {
     try {
-      return await this.goodsModel.find(json, fields).skip(0).limit(limit);
+      return await this.goodsModel.find(json, fields).skip(skip).limit(limit);
     } catch (error) {
       return [];
     }
@@ -75,7 +75,7 @@ export class GoodsService {
     @param {String} type -  hot  best  new
     @param {Number} limit -  数量
   */
-  async getCategoryGoods(cate_id: string, type: string, limit: number) {
+  async getCategoryGoods(cate_id: string, type: string, limit = 8, skip = 0) {
     //1. 获取分类下的子分类
     let cateIdsResult = await this.goodsCateService.find({
       pid: new mongoose.Types.ObjectId(cate_id),
@@ -102,14 +102,15 @@ export class GoodsService {
         findJson = Object.assign(findJson, { is_new: 1 });
         break;
       default:
-        findJson = Object.assign(findJson, { is_hot: 1 });
+        findJson = Object.assign(findJson, {});
         break;
     }
     //4.获取子分类热门商品
     const goodsArr = await this.findIn(
       findJson,
-      limit,
       'title goods_img shop_price',
+      limit,
+      skip,
     );
     return goodsArr;
   }

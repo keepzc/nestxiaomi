@@ -1,0 +1,54 @@
+<%- include ('../public/page_header.ejs')%>
+
+  <%- include ('../public/banner.ejs')%>
+
+    <!-- start danpin -->
+
+    <div class="danpin center">
+      <div class="search-filter center">
+        <ul class="item show-less" id="list_item_class">
+
+
+          <span class="label"> 分类----： </span>
+          <%for(var i=0;i<subCate.length;i++){%>
+            <%if(subCate[i].link==""){%>
+              <%if(subCate[i]._id.toString()==currentCate._id.toString()){%>
+                <li><a class="active" href="/category/<%=subCate[i]._id%>">
+                    <%=subCate[i].title%>
+                  </a></li>
+                <%}else{%>
+                  <li><a href="/category/<%=subCate[i]._id%>">
+                      <%=subCate[i].title%>
+                    </a></li>
+                  <%}%>
+                    <%}%>
+                      <%}%>
+        </ul>
+      </div>
+
+      <div class="main center">
+        <%for(var i=0;i<goodsList.length;i++){%>
+          <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;"
+            onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+            <div class="sub_mingxing">
+
+              <a href="#" target="_blank"><img src="/<%=goodsList[i].goods_img%>" alt="" /></a>
+
+            </div>
+            <div class="pinpai"><a href="#" target="_blank">
+                <%=goodsList[i].title%>
+              </a></div>
+
+            <div class="jiage">
+              <%=goodsList[i].shop_price%>元
+            </div>
+          </div>
+          <%}%>
+
+            <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+
+    <%- include ('../public/page_footer.ejs')%>

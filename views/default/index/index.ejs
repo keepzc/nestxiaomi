@@ -62,27 +62,33 @@
       <ul>
         <%for(var i=0;i<goodsCate.length;i++){%>
           <li>
-            <a href="#">
-              <%=goodsCate[i].title%>
-            </a>
-            <div class="pop">
-              <ol class="cate_list clear">
-                <%for(var j=0;j<goodsCate[i].items.length;j++){ %>
-                  <li>
-                    <div class="xuangou_left">
-                      <a href="#">
-                        <div class="img fl"><img src="<%=goodsCate[i].items[j].cate_img%>"
-                            alt="<%=goodsCate[i].items[j].title%>"></div>
-                        <span class="fl">
-                          <%=goodsCate[i].items[j].title%>
-                        </span>
-                      </a>
-                    </div>
+            <%if(goodsCate[i].link!=""){%>
+              <a href="<%=goodsCate[i].link%>" target="_blank">
+                <%=goodsCate[i].title%>
+              </a>
+              <%}else{%>
+                <a href="/category/<%=goodsCate[i]._id%>">
+                  <%=goodsCate[i].title%>
+                </a>
+                <%}%>
+                  <div class="pop">
+                    <ol class="cate_list clear">
+                      <%for(var j=0;j<goodsCate[i].items.length;j++){ %>
+                        <li>
+                          <div class="xuangou_left">
+                            <a href="#">
+                              <div class="img fl"><img src="<%=goodsCate[i].items[j].cate_img%>"
+                                  alt="<%=goodsCate[i].items[j].title%>"></div>
+                              <span class="fl">
+                                <%=goodsCate[i].items[j].title%>
+                              </span>
+                            </a>
+                          </div>
 
-                  </li>
-                  <%}%>
-              </ol>
-            </div>
+                        </li>
+                        <%}%>
+                    </ol>
+                  </div>
           </li>
 
           <%}%>
@@ -308,6 +314,3 @@
     </div>
   </div>
   <%- include ('../public/page_footer.ejs')%>
-    </body>
-
-    </html>

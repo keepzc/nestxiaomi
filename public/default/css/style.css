@@ -251,6 +251,26 @@ header .top .right .gouwuche:hover{color:#000;background: #666;}
 .danpin .main .mingxing .youhui{width: 234px;height: 12px;line-height: 12px;margin:15px 0;font-size: 12px;color: rgb(176,176,176);text-align: center;}
 .danpin .main .mingxing .jiage{font-size: 14px;text-align: center;color:#ff6709;}
 
+/*搜索筛选*/
+.search-filter{
+	width: 1226px;
+	background: rgb(250,250,250);
+	padding: 10px 0px;
+	margin-bottom: 20px;
+}
+.search-filter .show-less li{
+	display: inline-block;	
+	padding:20px;
+}
+
+.search-filter .show-less span{
+	padding-left: 20px;
+}
+
+.search-filter .active{
+	color: red;
+}
+
 /*category_item*/
 .category_item{background: rgb(245,245,245);}
 .category_item .main{height:614px;}

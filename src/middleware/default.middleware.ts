@@ -66,8 +66,8 @@ export class DefaultMiddleware implements NestMiddleware {
               {
                 _id: { $in: relationIdsArr },
               },
-              10,
               'title goods_img shop_price',
+              10,
             );
             //4、扩展以前对象的属性
             middleNavResult[i].subGoods = relationGoodsArr;

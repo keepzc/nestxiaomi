@@ -16,6 +16,7 @@ import { DefaultMiddleware } from './middleware/default.middleware';
 import { Config } from './config/config';
 import { PublicModule } from './module/public/public.module';
 import { CacheService } from './service/cache/cache.service';
+
 @Module({
   imports: [
     AdminModule,
@@ -46,7 +47,7 @@ export class AppModule implements NestModule {
           method: RequestMethod.GET,
         },
         {
-          path: '/plist',
+          path: '/category/*',
           method: RequestMethod.GET,
         },
         {
