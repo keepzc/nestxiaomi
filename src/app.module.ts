@@ -1,4 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { AdminModule } from './module/admin/admin.module';
 import { DefaultModule } from './module/default/default.module';
 import { ApiModule } from './module/api/api.module';
@@ -6,6 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 //配置中间件
 import { AdminauthMiddleware } from './middleware/adminauth.middleware';
 import { InitMiddleware } from './middleware/init.middleware';
+import { DefaultMiddleware } from './middleware/default.middleware';
 //配置全局config
 import { Config } from './config/config';
 import { PublicModule } from './module/public/public.module';
@@ -32,6 +38,21 @@ export class AppModule implements NestModule {
       .apply(AdminauthMiddleware)
       .forRoutes(`${Config.adminPath}/*`)
       .apply(InitMiddleware)
-      .forRoutes('*');
+      .forRoutes('*')
+      .apply(DefaultMiddleware)
+      .forRoutes(
+        {
+          path: '/',
+          method: RequestMethod.GET,
+        },
+        {
+          path: '/plist',
+          method: RequestMethod.GET,
+        },
+        {
+          path: '/product',
+          method: RequestMethod.GET,
+        },
+      );
   }
 }
