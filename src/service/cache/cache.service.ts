@@ -32,4 +32,11 @@ export class CacheService {
     }
     return JSON.parse(data);
   }
+  //清除缓存
+  async clear() {
+    if (!this.client) {
+      await this.getClient();
+    }
+    await this.client.flushdb();
+  }
 }

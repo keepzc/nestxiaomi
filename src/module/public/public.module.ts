@@ -31,8 +31,13 @@ import { GoodsImageService } from '../../service/goods-image/goods-image.service
 import { SettingService } from '../../service/setting/setting.service';
 import { NavService } from '../../service/nav/nav.service';
 import { ToolsService } from '../../service/tools/tools.service';
+import { CacheService } from '../../service/cache/cache.service';
+//引入redis 模块
+import { RedisModule } from 'nestjs-redis';
+import { Config } from '../../config/config';
 @Module({
   imports: [
+    RedisModule.register(Config.redisOptions),
     MongooseModule.forFeature([
       {
         name: 'Admin',
@@ -122,6 +127,7 @@ import { ToolsService } from '../../service/tools/tools.service';
     GoodsImageService,
     NavService,
     SettingService,
+    CacheService,
   ],
   //暴露服务
   exports: [
@@ -140,6 +146,7 @@ import { ToolsService } from '../../service/tools/tools.service';
     GoodsImageService,
     NavService,
     SettingService,
+    CacheService,
   ],
 })
 export class PublicModule {}

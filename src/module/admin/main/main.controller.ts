@@ -1,4 +1,11 @@
-import { Controller, Get, Query, Request, Render } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Request,
+  Render,
+  Response,
+} from '@nestjs/common';
 import { Config } from '../../../config/config';
 import { AccessService } from '../../../service/access/access.service';
 import { RoleAccessService } from '../../../service/role-access/role-access.service';
@@ -8,6 +15,7 @@ import { GoodsTypeAttributeService } from '../../../service/goods-type-attribute
 import { GoodsCateService } from '../../../service/goods-cate/goods-cate.service';
 import { GoodsService } from '../../../service/goods/goods.service';
 import { NavService } from '../../../service/nav/nav.service';
+import { CacheService } from '../../../service/cache/cache.service';
 @Controller(`${Config.adminPath}/main`)
 export class MainController {
   constructor(
@@ -19,6 +27,7 @@ export class MainController {
     private goodsCateService: GoodsCateService,
     private goodsService: GoodsService,
     private navService: NavService,
+    private cacheService: CacheService,
   ) {}
 
   @Get()
@@ -123,5 +132,10 @@ export class MainController {
         message: '传入参数错误',
       };
     }
+  }
+  @Get('clearCache')
+  async clearCache(@Response() res) {
+    await this.cacheService.clear();
+    res.redirect(`/${Config.adminPath}/main`);
   }
 }
