@@ -1,0 +1,93 @@
+<!-- start banner_x -->
+<div class="banner_x center">
+  <a href="./index.html" target="_blank">
+    <div class="logo fl"></div>
+  </a>
+
+  <div class="nav fl">
+    <ul class="clearfix" id="nav_list">
+      <li class="link-category">
+        <a href="#">全部商品分类</a>
+        <div class="banner_y">
+          <!--左侧分类导航-->
+          <div class="nav">
+            <ul>
+              <%for(var i=0;i<goodsCate.length;i++){%>
+                <li>
+                  <a href="#">
+                    <%=goodsCate[i].title%>
+                  </a>
+                  <div class="pop">
+                    <ol class="cate_list clear">
+                      <%for(var j=0;j<goodsCate[i].items.length;j++){ %>
+                        <li>
+                          <div class="xuangou_left">
+                            <a href="#">
+                              <div class="img fl"><img src="<%=goodsCate[i].items[j].cate_img%>"
+                                  alt="<%=goodsCate[i].items[j].title%>"></div>
+                              <span class="fl">
+                                <%=goodsCate[i].items[j].title%>
+                              </span>
+                            </a>
+                          </div>
+
+                        </li>
+                        <%}%>
+                    </ol>
+                  </div>
+                </li>
+
+                <%}%>
+
+
+            </ul>
+          </div>
+        </div>
+
+      </li>
+
+      <%for(var i=0;i<middleNav.length;i++){%>
+        <li>
+          <a href="#" target="_blank">
+            <%=middleNav[i].title%>
+          </a>
+
+          <%if(middleNav[i].subGoods && middleNav[i].subGoods.length>0){%>
+            <ol class="children-list-warp  clearfix">
+              <ul class="children-list">
+                <%for(var j=0;j<middleNav[i].subGoods.length;j++){%>
+                  <li>
+                    <a href="#">
+                      <img src="/<%=middleNav[i].subGoods[j].goods_img%>" />
+                      <p>
+                        <%=middleNav[i].subGoods[j].shop_price%>元
+                      </p>
+                    </a>
+                  </li>
+                  <%}%>
+              </ul>
+
+            </ol>
+            <%}%>
+
+
+        </li>
+        <%}%>
+
+          <li>
+    </ul>
+  </div>
+  <div class="search fr">
+    <form action="" method="post">
+      <div class="text fl">
+        <input type="text" class="shuru" placeholder="小米6&nbsp;小米MIX现货">
+      </div>
+      <div class="submit fl">
+        <input type="submit" class="sousuo" value="搜索" />
+      </div>
+      <div class="clear"></div>
+    </form>
+    <div class="clear"></div>
+  </div>
+</div>
+<!-- end banner_x -->

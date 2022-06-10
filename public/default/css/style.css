@@ -143,10 +143,25 @@ header .top .right .gouwuche:hover{color:#000;background: #666;}
 .banner_y .nav ul>li .pop .cate_list .xuangou_right a:hover{display: block;background:#ff6700;color:#fff; }
 
 .banner_y .nav ul li a{display:inline-block;margin-left:10px;color: #fff;}
-
-
-
-
+/*弹出左侧分类*/
+.banner_x .nav ul>li.link-category{
+  width: 120px;
+  padding-left: 40px;
+  position: relative;
+}
+.banner_x .nav ul>li.link-category .banner_y{
+  width: 250px;
+  position: absolute;
+  left: -50px;
+  z-index: 1000;
+  display: none;
+  transition: all 0.25s ease-out;
+}
+.banner_x .nav ul>li.link-category:hover .banner_y{
+  display: block;
+  transition: all 0.25s ease-in;
+  
+}
 /*轮播图*/
 .banner_y  .swiper-container {
 	width: 100%;

@@ -15,7 +15,7 @@ import { DefaultMiddleware } from './middleware/default.middleware';
 //配置全局config
 import { Config } from './config/config';
 import { PublicModule } from './module/public/public.module';
-
+import { CacheService } from './service/cache/cache.service';
 @Module({
   imports: [
     AdminModule,
@@ -30,7 +30,7 @@ import { PublicModule } from './module/public/public.module';
     PublicModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [CacheService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
