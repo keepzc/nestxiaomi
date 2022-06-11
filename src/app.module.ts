@@ -15,7 +15,6 @@ import { DefaultMiddleware } from './middleware/default.middleware';
 //配置全局config
 import { Config } from './config/config';
 import { PublicModule } from './module/public/public.module';
-import { CacheService } from './service/cache/cache.service';
 
 @Module({
   imports: [
@@ -31,7 +30,7 @@ import { CacheService } from './service/cache/cache.service';
     PublicModule,
   ],
   controllers: [],
-  providers: [CacheService],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -52,6 +51,10 @@ export class AppModule implements NestModule {
         },
         {
           path: '/product/*',
+          method: RequestMethod.GET,
+        },
+        {
+          path: '/cart',
           method: RequestMethod.GET,
         },
       );

@@ -32,6 +32,8 @@ import { SettingService } from '../../service/setting/setting.service';
 import { NavService } from '../../service/nav/nav.service';
 import { ToolsService } from '../../service/tools/tools.service';
 import { CacheService } from '../../service/cache/cache.service';
+import { CookieService } from '../../service/cookie/cookie.service';
+import { CartService } from '../../service/cart/cart.service';
 //引入redis 模块
 import { RedisModule } from 'nestjs-redis';
 import { Config } from '../../config/config';
@@ -128,6 +130,8 @@ import { Config } from '../../config/config';
     NavService,
     SettingService,
     CacheService,
+    CookieService,
+    CartService,
   ],
   //暴露服务
   exports: [
@@ -147,6 +151,8 @@ import { Config } from '../../config/config';
     NavService,
     SettingService,
     CacheService,
+    CookieService,
+    CartService,
   ],
 })
 export class PublicModule {}
