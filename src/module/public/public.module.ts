@@ -15,6 +15,8 @@ import { GoodsAttrSchema } from '../../schema/goods_attr.schema';
 import { GoodsImageSchema } from '../../schema/goods_image.schema';
 import { NavSchema } from '../../schema/nav.schema';
 import { SettingSchema } from '../../schema/setting.schema';
+import { UserSchema } from '../../schema/user.schema';
+import { UserTempSchema } from '../../schema/user_temp.schema';
 
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
@@ -34,6 +36,8 @@ import { ToolsService } from '../../service/tools/tools.service';
 import { CacheService } from '../../service/cache/cache.service';
 import { CookieService } from '../../service/cookie/cookie.service';
 import { CartService } from '../../service/cart/cart.service';
+import { UserService } from '../../service/user/user.service';
+import { UserTempService } from '../../service/user-temp/user-temp.service';
 //引入redis 模块
 import { RedisModule } from 'nestjs-redis';
 import { Config } from '../../config/config';
@@ -111,6 +115,16 @@ import { Config } from '../../config/config';
         schema: SettingSchema,
         collection: 'setting',
       },
+      {
+        name: 'User',
+        schema: UserSchema,
+        collection: 'user',
+      },
+      {
+        name: 'UserTemp',
+        schema: UserTempSchema,
+        collection: 'userTemp',
+      },
     ]),
   ],
   providers: [
@@ -132,6 +146,8 @@ import { Config } from '../../config/config';
     CacheService,
     CookieService,
     CartService,
+    UserService,
+    UserTempService,
   ],
   //暴露服务
   exports: [
@@ -153,6 +169,8 @@ import { Config } from '../../config/config';
     CacheService,
     CookieService,
     CartService,
+    UserService,
+    UserTempService,
   ],
 })
 export class PublicModule {}
