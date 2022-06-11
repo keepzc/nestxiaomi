@@ -57,6 +57,10 @@ export class AppModule implements NestModule {
           path: '/cart',
           method: RequestMethod.GET,
         },
+        {
+          path: '/cart/addCartSuccess',
+          method: RequestMethod.GET,
+        },
       );
   }
 }

@@ -16,16 +16,65 @@
       $('#checkAll').click(function () {
         if (this.checked) {
           $(':checkbox').prop('checked', true);
+          $.get(
+            '/cart/changeAllCart?type=1',
+            function (response) {
+              if (response.success) {
+                $('#allPrice').html(response.allPrice + '元');
+                $(this)
+                  .parent()
+                  .parent()
+                  .parent()
+                  .parent()
+                  .parent()
+                  .siblings('.jiesuandan')
+                  .find('.allchecknum')[0].innerText = response.allCheckNum;
+              }
+            }.bind(this),
+          );
         } else {
           $(':checkbox').prop('checked', false);
+          $.get(
+            '/cart/changeAllCart?type=0',
+            function (response) {
+              if (response.success) {
+                $('#allPrice').html(response.allPrice + '元');
+                $(this)
+                  .parent()
+                  .parent()
+                  .parent()
+                  .parent()
+                  .parent()
+                  .siblings('.jiesuandan')
+                  .find('.allchecknum')[0].innerText = response.allCheckNum;
+              }
+            }.bind(this),
+          );
         }
       });
-
-      $('.cart_list input:checkbox').click(
-        function () {
-          this.isCheckedAll();
-        }.bind(this),
-      );
+      var _that = this;
+      $('.cart_list input:checkbox').click(function () {
+        _that.isCheckedAll();
+        //改变当前商品的状态
+        var goods_id = $(this).attr('goods_id');
+        var color = $(this).attr('color');
+        $.get(
+          '/cart/changeOneCart?goods_id=' + goods_id + '&color=' + color,
+          function (response) {
+            if (response.success) {
+              $('#allPrice').html(response.allPrice + '元');
+              $(this)
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .siblings('.jiesuandan')
+                .find('.allchecknum')[0].innerText = response.allCheckNum;
+            }
+          }.bind(this),
+        );
+      });
     },
     //判断全选是否选择
     isCheckedAll() {
@@ -59,6 +108,16 @@
                 .parent()
                 .siblings('.totalPrice')
                 .html(response.totalPrice);
+
+              $(this)
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .siblings('.jiesuandan')
+                .find('.allchecknum')[0].innerText = response.allCheckNum;
             }
           }.bind(this),
         );
@@ -78,6 +137,15 @@
                 .parent()
                 .siblings('.totalPrice')
                 .html(response.totalPrice);
+              $(this)
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .siblings('.jiesuandan')
+                .find('.allchecknum')[0].innerText = response.allCheckNum;
             }
           }.bind(this),
         );

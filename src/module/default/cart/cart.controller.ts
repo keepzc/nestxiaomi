@@ -23,16 +23,20 @@ export class CartController {
   index(@Request() req) {
     const cartList = this.cookieService.get(req, 'cartList');
     let allPrice = 0;
+    let allCheckNum = 0; //总共选择数量
+    const allGoodsMun = [];
     if (cartList && cartList.length > 0) {
       for (let i = 0; i < cartList.length; i++) {
         if (cartList[i].checked) {
           allPrice += cartList[i].price * cartList[i].num;
+          allCheckNum += cartList[i].num;
         }
       }
     }
     return {
       cartList: cartList && cartList.length > 0 ? cartList : [],
       allPrice: allPrice,
+      allCheckNum: allCheckNum,
     };
   }
   @Get('addCart')
@@ -99,7 +103,6 @@ export class CartController {
       goods_attr: '', //根据自己的需求拓展
       checked: true /*默认选中*/,
     };
-    console.log(currentData);
     // 2、判断购物车有没有数据   （cookie）
     const cartList = this.cookieService.get(req, 'cartList');
     if (cartList && cartList.length > 0) {
@@ -127,8 +130,36 @@ export class CartController {
       tempArr.push(currentData);
       this.cookieService.set(res, 'cartList', tempArr);
     }
-    res.send('加入购物车成功');
+    res.redirect(
+      '/cart/addCartSuccess?goods_id=' + goods_id + '&color_id=' + color_id,
+    );
   }
+  //加入购物车后显示的成功页面
+  @Get('addCartSuccess')
+  @Render('default/cart/addcart_success')
+  async addCartSuccess(@Query() query, @Request() req, @Response() res) {
+    const goods_id = query.goods_id;
+    const color_id = query.color_id;
+    //1、获取商品信息
+    const goodsResult = await this.goodsService.find({ _id: goods_id });
+    const colorResult = await this.goodsColorService.find({ _id: color_id });
+    if (goodsResult.length == 0 || colorResult.length == 0) {
+      res.status(404);
+      res.send('错误404');
+    } else {
+      const title =
+        goodsResult[0].title +
+        '--' +
+        goodsResult[0].goods_version +
+        '--' +
+        colorResult[0].color_name;
+      return {
+        title: title,
+        goods_id: goods_id,
+      };
+    }
+  }
+  //增加购物车数量
   @Get('incCart')
   async incCart(@Query() query, @Request() req, @Response() res) {
     const goods_id = query.goods_id;
@@ -139,6 +170,8 @@ export class CartController {
       const cartList = this.cookieService.get(req, 'cartList');
       let currentNum = 0; //商品数量
       let allPrice = 0; //总价格
+      let allCheckNum = 0; //总共选择数量
+      // let allGoodsNum = 0; //总商品数量
       for (let i = 0; i < cartList.length; i++) {
         const cartListItem = cartList[i];
         if (
@@ -148,9 +181,14 @@ export class CartController {
         ) {
           cartListItem.num = cartListItem.num + 1;
           currentNum = cartListItem.num;
-          if (cartListItem.checked) {
-            allPrice += cartListItem.price * cartListItem.num;
-          }
+        }
+      }
+      for (let j = 0; j < cartList.length; j++) {
+        const cartListItem = cartList[j];
+        if (cartListItem.checked) {
+          allPrice += cartListItem.price * cartListItem.num;
+          allCheckNum += cartListItem.num;
+          // allGoodsNum = j;
         }
       }
       this.cookieService.set(res, 'cartList', cartList);
@@ -159,6 +197,8 @@ export class CartController {
         totalPrice: currentNum * goodsResult[0].shop_price,
         num: currentNum,
         allPrice: allPrice,
+        allCheckNum: allCheckNum,
+        // allGoodsNum: allGoodsNum,
         msg: '修改数量成功',
       });
     } else {
@@ -168,6 +208,7 @@ export class CartController {
       });
     }
   }
+  //减少购物车数量
   @Get('decCart')
   async decCart(@Query() query, @Request() req, @Response() res) {
     const goods_id = query.goods_id;
@@ -178,6 +219,8 @@ export class CartController {
       const cartList = this.cookieService.get(req, 'cartList');
       let currentNum = 0; //商品数量
       let allPrice = 0; //总价格
+      let allCheckNum = 0; //总共选择数量
+      // let allGoodsNum = 0; //总商品数量
       for (let i = 0; i < cartList.length; i++) {
         const cartListItem = cartList[i];
         if (
@@ -189,9 +232,14 @@ export class CartController {
             cartListItem.num = cartListItem.num - 1;
           }
           currentNum = cartListItem.num;
-          if (cartListItem.checked) {
-            allPrice += cartListItem.price * cartListItem.num;
-          }
+        }
+      }
+      for (let j = 0; j < cartList.length; j++) {
+        const cartListItem = cartList[j];
+        if (cartListItem.checked) {
+          allPrice += cartListItem.price * cartListItem.num;
+          allCheckNum += cartListItem.num;
+          // allGoodsNum = j;
         }
       }
       this.cookieService.set(res, 'cartList', cartList);
@@ -200,6 +248,8 @@ export class CartController {
         totalPrice: currentNum * goodsResult[0].shop_price,
         num: currentNum,
         allPrice: allPrice,
+        allCheckNum: allCheckNum,
+        // allGoodsNum: allGoodsNum,
         msg: '修改数量成功',
       });
     } else {
@@ -208,5 +258,93 @@ export class CartController {
         msg: '修改数量失败',
       });
     }
+  }
+  //改变购物车商品的状态
+  @Get('changeOneCart')
+  async changeOneCart(@Query() query, @Request() req, @Response() res) {
+    const goods_id = query.goods_id;
+    const color = query.color;
+    const goods_attr = ''; //如果自己的项目里面有这个自定义属性的话需要通过接口传过来
+    const goodsResult = await this.goodsService.find({ _id: goods_id });
+    if (goodsResult && goodsResult.length > 0) {
+      const cartList = this.cookieService.get(req, 'cartList');
+      let allPrice = 0; //总价格
+      let allCheckNum = 0; //总共选择数量
+      for (let i = 0; i < cartList.length; i++) {
+        if (
+          cartList[i]._id.toString() == goods_id.toString() &&
+          cartList[i].color == color &&
+          cartList[i].goods_attr == goods_attr
+        ) {
+          cartList[i].checked = !cartList[i].checked;
+        }
+        if (cartList[i].checked) {
+          //计算总价
+          allPrice += cartList[i].num * cartList[i].price;
+          allCheckNum += cartList[i].num;
+        }
+      }
+      this.cookieService.set(res, 'cartList', cartList);
+      res.send({
+        success: true,
+        allPrice: allPrice,
+        allCheckNum: allCheckNum,
+        msg: '修改状态成功',
+      });
+    } else {
+      res.send({
+        success: false,
+        msg: '修改状态失败',
+      });
+    }
+  }
+  //改变所有购物车商品的状态
+  @Get('changeAllCart')
+  async changeAllCart(@Query() query, @Request() req, @Response() res) {
+    const type = query.type;
+    const cartList = this.cookieService.get(req, 'cartList');
+    let allPrice = 0; //总价格
+    let allCheckNum = 0; //总共选择数量
+    for (let i = 0; i < cartList.length; i++) {
+      if (type == 1) {
+        cartList[i].checked = true;
+      } else {
+        cartList[i].checked = false;
+      }
+      //计算总价
+      if (cartList[i].checked) {
+        allPrice += cartList[i].price * cartList[i].num;
+        allCheckNum += cartList[i].num;
+      }
+    }
+    this.cookieService.set(res, 'cartList', cartList);
+    res.send({
+      success: true,
+      allPrice: allPrice,
+      allCheckNum: allCheckNum,
+    });
+  }
+
+  //删除购物车数据
+  @Get('delCart')
+  async delCart(@Query() query, @Request() req, @Response() res) {
+    const goods_id = query.goods_id;
+    const color = query.color;
+    const goods_attr = ''; //如果自己的项目里面有这个自定义属性的话需要通过接口传过来
+    const goodsResult = await this.goodsService.find({ _id: goods_id });
+    if (goodsResult && goodsResult.length > 0) {
+      const cartList = this.cookieService.get(req, 'cartList');
+      for (let i = 0; i < cartList.length; i++) {
+        if (
+          cartList[i]._id.toString() == goods_id.toString() &&
+          cartList[i].color == color &&
+          cartList[i].goods_attr == goods_attr
+        ) {
+          cartList.splice(i, 1);
+        }
+      }
+      this.cookieService.set(res, 'cartList', cartList);
+    }
+    res.redirect('/cart');
   }
 }

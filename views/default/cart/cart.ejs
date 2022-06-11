@@ -47,7 +47,8 @@
           <tr class="cart_list">
 
             <td>
-              <input type="checkbox" <%if(cartList[i].checked){%>checked <%}%> />
+              <input goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>" type="checkbox"
+                <%if(cartList[i].checked){%>checked <%}%> />
             </td>
 
             <td>
@@ -82,7 +83,8 @@
 
             </td>
             <td>
-              <span><a href="#"> 删除</a></span>
+              <span><a href="/cart/delCart?goods_id=<%=cartList[i]._id%>&color=<%=cartList[i].color%>" class="delete">
+                  删除</a></span>
             </td>
           </tr>
 
@@ -97,7 +99,14 @@
         <ul>
           <li><a href="./liebiao.html">继续购物</a></li>
           <li>|</li>
-          <li>共<span>2</span>件商品，已选择<span>1</span>件</li>
+          <li>共
+            <span class="allgoodsnum">
+              0
+            </span>件商品，已选择
+            <span class="allchecknum">
+              <%=allCheckNum%>
+            </span>件
+          </li>
           <div class="clear"></div>
         </ul>
       </div>
