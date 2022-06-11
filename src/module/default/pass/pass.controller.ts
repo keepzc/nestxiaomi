@@ -10,12 +10,12 @@ export class PassController {
     private userTempService: UserTempService,
   ) {}
   @Get('code')
-  getCode(@Request() req, @Response() res) {
-    // const svgCaptcha = this.toolsService.getCaptcha(5, 100, 52);
-    // //设置session
-    // req.session.identify_code = svgCaptcha.text;
-    // res.type('image/svg+xml');
-    // res.send(svgCaptcha.data);
+  async getCode(@Request() req, @Response() res) {
+    const svgCaptcha = await this.toolsService.getCaptcha(3, 135, 50);
+    //设置session
+    req.session.identify_code = svgCaptcha.text;
+    res.type('image/svg+xml');
+    res.send(svgCaptcha.data);
   }
 
   @Get('login')

@@ -10,12 +10,12 @@ const Jimp = require('jimp');
 import { Config } from '../../config/config';
 @Injectable()
 export class ToolsService {
-  async getCaptcha() {
+  async getCaptcha(size?: number, width?: number, height?: number) {
     const captcha = svgCaptcha.create({
-      size: 2,
+      size: size || 2,
       fontSize: 50,
-      width: 100,
-      height: 32,
+      width: width || 100,
+      height: height || 32,
       background: '#cc9966',
     });
     return captcha;
@@ -38,6 +38,19 @@ export class ToolsService {
   getTime() {
     const d = new Date();
     return d.getTime();
+  }
+  //生成随机数
+  getRandomNum() {
+    let random_str = '';
+    for (let i = 0; i < 4; i++) {
+      random_str += Math.floor(Math.random() * 10);
+    }
+    return random_str;
+  }
+  //获取年月日
+  getDay() {
+    const day = format(new Date(), 'YYYYMMDD');
+    return day;
   }
   async uploadFile(file): Promise<any> {
     return new Promise((resolve, reject) => {
