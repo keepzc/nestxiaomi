@@ -4,9 +4,19 @@ import { GoodsColorInterface } from '../../interface/goods_color.interface';
 @Injectable()
 export class GoodsColorService {
   constructor(@InjectModel('GoodsColor') private readonly goodsColorModel) {}
-  async find(json: GoodsColorInterface, fields?: string) {
+  async find(json, fields?: string) {
     try {
       return await this.goodsColorModel.find(json, fields);
+    } catch (error) {
+      return [];
+    }
+  }
+  async findIn(json, fields?: string, limit = 10, skip = 0) {
+    try {
+      return await this.goodsColorModel
+        .find(json, fields)
+        .skip(skip)
+        .limit(limit);
     } catch (error) {
       return [];
     }

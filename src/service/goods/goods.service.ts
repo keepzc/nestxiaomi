@@ -9,10 +9,21 @@ export class GoodsService {
     @InjectModel('Goods') private readonly goodsModel,
     private goodsCateService: GoodsCateService,
   ) {}
-  async find(json: GoodsInterface, skip = 0, limit = 0, fields?: string) {
+  async find(
+    json: GoodsInterface,
+    skip = 0,
+    limit = 0,
+    fields?: string,
+    sort?: object,
+  ) {
     //分页查询 算法 db.表名.find().skip((page-1)*pageSize).limit(pageSize)
     try {
-      return await this.goodsModel.find(json, fields).skip(skip).limit(limit);
+      sort ? sort : { add_time: -1 };
+      return await this.goodsModel
+        .find(json, fields)
+        .skip(skip)
+        .limit(limit)
+        .sort(sort);
     } catch (error) {
       return [];
     }
@@ -113,5 +124,17 @@ export class GoodsService {
       skip,
     );
     return goodsArr;
+  }
+  strToArray(str: string) {
+    const idsArr = [];
+    try {
+      const tempArr = str.replace(/，/g, ',').split(',');
+      tempArr.forEach((val) => {
+        idsArr.push(new mongoose.Types.ObjectId(val));
+      });
+      return idsArr;
+    } catch (error) {
+      return idsArr;
+    }
   }
 }

@@ -328,17 +328,19 @@ header .top .right .gouwuche:hover{color:#000;background: #666;}
 .xiangqing .neirong nav li a{color: #333;font-size: 14px;}
 .xiangqing .neirong nav li a:hover{color:#ff6700;}
 /*jieshao*/
-.jieshao{height: 560px; }
-.jieshao .left{width:560px;height:560px;}
-.jieshao .right{width:620px;height: 600px;}
+
+.jieshao .left{width:560px;}
+.jieshao .right{width:620px;}
 .jieshao .right .jianjie{font-size: 14px;color: rgb(176,176,176);line-height: 20px;}
 .jieshao .right .jiage{font-size: 18px;color:#ff6700;font-weight: bold;}
-.jieshao .right .xzbb{height: 58px;line-height:58px;}
+.jieshao .right .xzbb{line-height:58px;}
 .jieshao .right .xzbb .banben{height: 58px;line-height: 58px;width: 278px;cursor:pointer;margin-right: 5px;border:1px solid #e0e0e0;}
 .jieshao .right .xzbb .banben a{display:block;font-size: 18px;color:#000;padding:0 10px;}
 .jieshao .right .xzbb .banben a span{display: inline-block;margin-right: 10px;}
 .jieshao .right .xzbb .banben a:hover{color:#ff6700;}
-.jieshao .right .xzbb .banben:hover{border:1px solid #ff6700;}
+.jieshao .right .xzbb .banben:hover,.jieshao .right .xzbb .banben.active{border:1px solid #ff6700;}
+
+
 .jieshao .right .xzbb .banben a .yuandian{display: inline-block;height: 15px;width: 15px;border-radius: 50%;background: #000;margin-left: 80px;}
 /*选取详情*/
 .xqxq{height: 80px;width: 555px;background: rgb(255,255,255);padding:20px; background: #fafafa}

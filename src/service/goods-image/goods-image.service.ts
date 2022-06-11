@@ -5,9 +5,9 @@ import { GoodsImageInterface } from '../../interface/goods_image.interface';
 export class GoodsImageService {
   constructor(@InjectModel('GoodsImage') private readonly GoodsImageModel) {}
 
-  async find(json: GoodsImageInterface, fields?: string) {
+  async find(json: GoodsImageInterface, fields?: string, limit = 6) {
     try {
-      return await this.GoodsImageModel.find(json, fields);
+      return await this.GoodsImageModel.find(json, fields).limit(limit);
     } catch (error) {
       return [];
     }
