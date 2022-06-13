@@ -17,7 +17,7 @@ export class DefaultMiddleware implements NestMiddleware {
     let topNavResult = await this.cacheService.get('indexTopNav');
     if (!topNavResult) {
       topNavResult = await this.navService.find({ position: 1, status: 1 });
-      // this.cacheService.set('indexTopNav', topNavResult, 60 * 60);
+      this.cacheService.set('indexTopNav', topNavResult, 60 * 60);
     }
     //商品分类
     let goodsCateResult = await this.cacheService.get('indexGoodsCate');
@@ -77,7 +77,7 @@ export class DefaultMiddleware implements NestMiddleware {
           }
         }
       }
-      // this.cacheService.set('indexMiddleNav', middleNavResult, 60 * 60);
+      this.cacheService.set('indexMiddleNav', middleNavResult, 60 * 60);
     }
     res.locals.goodsCate = goodsCateResult;
     res.locals.middleNav = middleNavResult;

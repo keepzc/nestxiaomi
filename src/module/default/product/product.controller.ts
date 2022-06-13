@@ -23,7 +23,7 @@ export class ProductController {
 
       let goodsImageResult = await this.goodsImageService.find({
         goods_id,
-        color_id,
+        color_id: new mongoose.Types.ObjectId(color_id),
       });
 
       if (goodsImageResult.length == 0) {
