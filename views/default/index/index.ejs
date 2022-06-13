@@ -76,13 +76,24 @@
                       <%for(var j=0;j<goodsCate[i].items.length;j++){ %>
                         <li>
                           <div class="xuangou_left">
-                            <a href="#">
-                              <div class="img fl"><img src="<%=goodsCate[i].items[j].cate_img%>"
-                                  alt="<%=goodsCate[i].items[j].title%>"></div>
-                              <span class="fl">
-                                <%=goodsCate[i].items[j].title%>
-                              </span>
-                            </a>
+                            <%if(goodsCate[i].items[j].link !="" ){%>
+                              <a href="<%=goodsCate[i].items[j].link%>" target="_blank">
+                                <div class="img fl"><img src="<%=goodsCate[i].items[j].cate_img%>"
+                                    alt="<%=goodsCate[i].items[j].title%>"></div>
+                                <span class="fl">
+                                  <%=goodsCate[i].items[j].title%>
+                                </span>
+                              </a>
+                              <%}else{%>
+                                <a href="/category/<%=goodsCate[i].items[j]._id%>">
+                                  <div class="img fl"><img src="<%=goodsCate[i].items[j].cate_img%>"
+                                      alt="<%=goodsCate[i].items[j].title%>"></div>
+                                  <span class="fl">
+                                    <%=goodsCate[i].items[j].title%>
+                                  </span>
+                                </a>
+                                <%}%>
+
                           </div>
 
                         </li>

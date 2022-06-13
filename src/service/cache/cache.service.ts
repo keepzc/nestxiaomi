@@ -30,6 +30,7 @@ export class CacheService {
     if (!data) {
       return null;
     }
+    console.log(data);
     return JSON.parse(data);
   }
   //清除缓存
