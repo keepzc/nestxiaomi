@@ -1,84 +1,113 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-        <meta name="author" content="order by dede58.com"/>
-		<title>用户注册</title>
-		<link rel="stylesheet" href="/default/css/login.css" />
 
-		<script src="/default/js/jquery-1.10.1.js"></script>		
-	</head>
-	<body class="register_page">
-		
-			<div class="regist">
-				<div class="regist_center">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="order by dede58.com" />
+  <title>用户注册</title>
+  <link rel="stylesheet" href="/default/css/login.css" />
+  <link rel="stylesheet" href="/default/css/toastr.min.css">
+  <script src="/default/js/jquery-1.10.1.js"></script>
+  <script src="/default/js/toastr.min.js"></script>
+</head>
 
-					<div class="logo">
-							<img src="/default/image/logo_top.png" alt="nest小米">
-					</div>
-					<div class="regist_top">
-							<h2>注册小米账户</h2>
-					</div>
-					<div class="regist_main center">
+<body class="register_page">
 
-						<p>验证码已通过短信发送至152******12，请输入完成验证。手机绑定是为保障用户的信息真实性和帐号安全性</p>
+  <div class="regist">
+    <div class="regist_center">
 
-						<br>
-						<br>
-						
-							<div class="yzm">
-								<input type="text" id="identify_code" name="identify_code" placeholder="请输入验证码"/>
-								
-								<button id="sendCode">重新发送</button>
-							</div>
+      <div class="logo">
+        <img src="/default/image/logo_top.png" alt="nest小米">
+      </div>
+      <div class="regist_top">
+        <h2>注册小米账户</h2>
+      </div>
+      <div class="regist_main center">
 
-							<div class="regist_submit">
-									<input class="submit" id="nextStep" type="button" name="submit" value="下一步" >
+        <p>验证码已通过短信发送至152******12，请输入完成验证。手机绑定是为保障用户的信息真实性和帐号安全性</p>
 
-									<br>	
+        <br>
+        <br>
 
-									<input class="return" id="returnButton" type="button" name="return" value="返回" >
-							</div>
-					
-					</div>		
-					
-					
-					<script>
-					
-						$(function(){
+        <div class="yzm">
+          <input type="hidden" id="identify_code" name="identify_code" value="<%=identify_code%>">
+          <input type="hidden" id="phone" name="phone" value="<%=phone%>">
+          <input type="hidden" id="sign" name="sign" value="<%=sign%>">
+          <input type="text" id="phone_code" name="phone_code" placeholder="请输短信入验证码" />
 
-							var timer =10;
-							function Countdown() {
-								if (timer >= 1) {
-									timer -= 1;
-									$("#sendCode").attr('disabled',true);
-									$("#sendCode").html('重新发送('+timer+')');
-									setTimeout(function() {
-										Countdown();
-									}, 1000);
-								}else{
-									$("#sendCode").attr('disabled',false)
+          <button id="sendCode">重新发送</button>
+        </div>
 
-									$("#sendCode").html('重新发送');
-								}
-							}
-							
-							Countdown();
+        <div class="regist_submit">
+          <input class="submit" id="nextStep" type="button" name="submit" value="下一步">
 
-							
+          <br>
 
-							$("#sendCode").click(function(){
+          <input class="return" id="returnButton" type="button" name="return" value="返回">
+        </div>
 
-								Countdown();
-								alert('重新发送');
-							})
-							
-						})
+      </div>
 
-					</script>
-					
-				</div>
-			</div>
-			
-	</body>
+
+      <script>
+
+        $(function () {
+
+          var timer = 10;
+          function Countdown() {
+            if (timer >= 1) {
+              timer -= 1;
+              $("#sendCode").attr('disabled', true);
+              $("#sendCode").html('重新发送(' + timer + ')');
+              setTimeout(function () {
+                Countdown();
+              }, 1000);
+            } else {
+              $("#sendCode").attr('disabled', false)
+
+              $("#sendCode").html('重新发送');
+            }
+          }
+          Countdown()
+          $("#sendCode").click(function () {
+            timer = 10
+            Countdown();
+
+            var phone = $('#phone').val();
+            var identify_code = $('#identify_code').val();
+            $.get('/pass/sendCode', { phone: phone, identify_code: identify_code }, function (response) {
+              // console.log(response);
+
+              if (response.success == true) {
+                toastr.success('发送验证码成功')
+              } else {
+                toastr.warning(response.msg)
+                // alert(response.msg);
+              }
+            })
+          })
+
+        })
+
+        $(function () {
+          $('#nextStep').click(function (e) {
+            var sign = $('#sign').val()
+            var phone_code = $("#phone_code").val()
+            $.get('/pass/validatePhoneCode', { sign: sign, phone_code: phone_code }, function (response) {
+              console.log(response)
+              if (response.success == true) {
+                location.href = "/pass/registerStep3?sign=" + response.sign + '&phone_code=' + phone_code;
+              } else {
+                toastr.warning(response.msg)
+              }
+            })
+          })
+        })
+      </script>
+
+    </div>
+  </div>
+
+</body>
+
 </html>
