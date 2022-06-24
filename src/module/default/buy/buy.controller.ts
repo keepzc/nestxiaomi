@@ -10,11 +10,17 @@ import {
 } from '@nestjs/common';
 import { CookieService } from '../../../service/cookie/cookie.service';
 import { AddressService } from '../../../service/address/address.service';
+import { OrderService } from '../../../service/order/order.service';
+import { OrderItemService } from '../../../service/order-item/order-item.service';
+import { ToolsService } from '../../../service/tools/tools.service';
 @Controller('buy')
 export class BuyController {
   constructor(
     private cookieService: CookieService,
     private addressService: AddressService,
+    private orderService: OrderService,
+    private orderItemService: OrderItemService,
+    private toolsService: ToolsService,
   ) {}
   @Get('checkout')
   // @Render('default/buy/checkout')
@@ -46,5 +52,23 @@ export class BuyController {
     } else {
       res.redirect('/cart');
     }
+  }
+
+  //支付
+  @Get('confirm')
+  async confirm(@Query() query, @Response() res) {
+    const id = query.id;
+    res.send('获取订单信息-去支付');
+  }
+
+  //提交订单
+  @Post('doOrder')
+  async doOrder(@Query() query, @Request() req, @Response() res) {
+    /*
+      1、获取收货地址信息
+      2、获取购买商品的信息
+      3、把订单信息放在订单表，把商品信息放在商品表
+      4、删除购物车里面的选中数据
+    */
   }
 }

@@ -18,6 +18,8 @@ import { SettingSchema } from '../../schema/setting.schema';
 import { UserSchema } from '../../schema/user.schema';
 import { UserTempSchema } from '../../schema/user_temp.schema';
 import { AddressSchema } from '../../schema/address.schema';
+import { OrderSchema } from '../../schema/order.schema';
+import { OrderItemSchema } from '../../schema/order_item.schema';
 
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
@@ -40,6 +42,8 @@ import { CartService } from '../../service/cart/cart.service';
 import { UserService } from '../../service/user/user.service';
 import { UserTempService } from '../../service/user-temp/user-temp.service';
 import { AddressService } from '../../service/address/address.service';
+import { OrderService } from '../../service/order/order.service';
+import { OrderItemService } from '../../service/order-item/order-item.service';
 //引入redis 模块
 import { RedisModule } from 'nestjs-redis';
 import { Config } from '../../config/config';
@@ -132,6 +136,16 @@ import { Config } from '../../config/config';
         schema: AddressSchema,
         collection: 'address',
       },
+      {
+        name: 'Order',
+        schema: OrderSchema,
+        collection: 'order',
+      },
+      {
+        name: 'OrderItem',
+        schema: OrderItemSchema,
+        collection: 'orderItem',
+      },
     ]),
   ],
   providers: [
@@ -156,6 +170,8 @@ import { Config } from '../../config/config';
     UserService,
     UserTempService,
     AddressService,
+    OrderService,
+    OrderItemService,
   ],
   //暴露服务
   exports: [
@@ -180,6 +196,8 @@ import { Config } from '../../config/config';
     UserService,
     UserTempService,
     AddressService,
+    OrderService,
+    OrderItemService,
   ],
 })
 export class PublicModule {}
