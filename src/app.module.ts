@@ -12,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AdminauthMiddleware } from './middleware/adminauth.middleware';
 import { InitMiddleware } from './middleware/init.middleware';
 import { DefaultMiddleware } from './middleware/default.middleware';
+import { UserauthMiddleware } from './middleware/userauth.middleware';
 //配置全局config
 import { Config } from './config/config';
 import { PublicModule } from './module/public/public.module';
@@ -60,6 +61,21 @@ export class AppModule implements NestModule {
         {
           path: '/cart/addCartSuccess',
           method: RequestMethod.GET,
+        },
+        {
+          path: '/buy/*',
+          method: RequestMethod.GET,
+        },
+      )
+      .apply(UserauthMiddleware)
+      .forRoutes(
+        {
+          path: '/buy/*',
+          method: RequestMethod.ALL,
+        },
+        {
+          path: '/user/*',
+          method: RequestMethod.ALL,
         },
       );
   }

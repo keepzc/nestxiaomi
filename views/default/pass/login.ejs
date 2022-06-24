@@ -27,6 +27,7 @@
         <div class="xian center"></div>
       </div>
       <div class="login_main center">
+        <input type="hidden" id="prevPage" value="<%=prevPage%>">
         <div class="username">用户名：<input class="shurukuang" type="text" id="username" name="username"
             placeholder="请输入你的用户名" />
         </div>
@@ -73,7 +74,9 @@
         $.post('/pass/doLogin', { username: username, identify_code: identify_code, password: password }, function (response) {
           console.log(response);
           if (response.success == true) {
-            location.href = "/";
+            //获取上一页地址
+            var prevPage = $('#prevPage').val()
+            location.href = prevPage || "/";
           } else {
             $("#identify_code_img").attr("src", '/pass/code?width=100&height=40&mt=' + Math.random())
             toastr.warning(response.msg)

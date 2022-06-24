@@ -34,8 +34,10 @@ export class PassController {
   //登录页面
   @Get('login')
   @Render('default/pass/login')
-  login() {
-    return {};
+  login(@Request() req) {
+    return {
+      prevPage: req.prevPage || '',
+    };
   }
   //退出登录
   @Get('loginOut')
