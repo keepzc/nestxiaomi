@@ -1,8 +1,9 @@
 <%- include ('../public/page_header.ejs')%>
   <!--end header -->
   <link rel="stylesheet" href="/default/css/cart.css" />
+  <link rel="stylesheet" href="/default/css/toastr.min.css">
   <script src="/default/js/cart.js"> </script>
-
+  <script src="/default/js/toastr.min.js"></script>
   <!-- start banner_x -->
   <div class="banner_x center">
     <a href="/" target="_blank">
@@ -22,106 +23,124 @@
     <div class="clear"></div>
   </div>
   <div class="xiantiao"></div>
-  <div class="gwcxqbj">
-    <div class="gwcxd center">
-      <table class="table">
 
-        <tr class="th">
+  <%if(cartList && cartList.length>0){%>
+    <div class="gwcxqbj">
+      <div class="gwcxd center">
+        <table class="table">
 
-          <th>
-            <input type="checkbox" id="checkAll" />
-            全选
-          </th>
-          <th>
-            商品名称
-          </th>
-          <th>单价</th>
-          <th>数量</th>
-          <th>小计</th>
-          <th>操作</th>
-        </tr>
+          <tr class="th">
 
-
-        <%for(var i=0;i<cartList.length;i++){%>
-
-          <tr class="cart_list">
-
-            <td>
-              <input goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>" type="checkbox"
-                <%if(cartList[i].checked){%>checked <%}%> />
-            </td>
-
-            <td>
-              <div class="col_pic">
-                <img src="/<%=cartList[i].goods_img%>" />
-              </div>
-              <div class="col_title">
-                <%=cartList[i].title%> -- <%=cartList[i].color%>
-                    <%=cartList[i].goods_version%>
-              </div>
-            </td>
-
-            <td class="price">
-              <%=cartList[i].price%>元
-            </td>
-
-            <td>
-
-              <div class="cart_number">
-                <div class="input_left decCart" goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>">-</div>
-
-                <div class="input_center">
-                  <input id="num" name="num" readonly="readonly" type="text" value="<%=cartList[i].num%>" />
-                </div>
-                <div class="input_right incCart" goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>">+</div>
-              </div>
-
-            </td>
-
-            <td class="totalPrice">
-              <%=parseFloat(cartList[i].price)*cartList[i].num%>元
-
-            </td>
-            <td>
-              <span><a href="/cart/delCart?goods_id=<%=cartList[i]._id%>&color=<%=cartList[i].color%>" class="delete">
-                  删除</a></span>
-            </td>
+            <th>
+              <input type="checkbox" id="checkAll" />
+              全选
+            </th>
+            <th>
+              商品名称
+            </th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+            <th>操作</th>
           </tr>
 
-          <%}%>
-      </table>
 
+          <%for(var i=0;i<cartList.length;i++){%>
 
+            <tr class="cart_list">
 
-    </div>
-    <div class="jiesuandan mt20 center">
-      <div class="tishi fl ml20">
-        <ul>
-          <li><a href="./liebiao.html">继续购物</a></li>
-          <li>|</li>
-          <li>共
-            <span class="allgoodsnum">
-              0
-            </span>件商品，已选择
-            <span class="allchecknum">
-              <%=allCheckNum%>
-            </span>件
-          </li>
-          <div class="clear"></div>
-        </ul>
+              <td>
+                <input goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>" type="checkbox"
+                  <%if(cartList[i].checked){%>checked <%}%> />
+              </td>
+
+              <td>
+                <div class="col_pic">
+                  <img src="/<%=cartList[i].goods_img%>" />
+                </div>
+                <div class="col_title">
+                  <%=cartList[i].title%> -- <%=cartList[i].color%>
+                      <%=cartList[i].goods_version%>
+                </div>
+              </td>
+
+              <td class="price">
+                <%=cartList[i].price%>元
+              </td>
+
+              <td>
+
+                <div class="cart_number">
+                  <div class="input_left decCart" goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>">-
+                  </div>
+
+                  <div class="input_center">
+                    <input id="num" name="num" readonly="readonly" type="text" value="<%=cartList[i].num%>" />
+                  </div>
+                  <div class="input_right incCart" goods_id="<%=cartList[i]._id%>" color="<%=cartList[i].color%>">+
+                  </div>
+                </div>
+
+              </td>
+
+              <td class="totalPrice">
+                <%=parseFloat(cartList[i].price)*cartList[i].num%>元
+
+              </td>
+              <td>
+                <span><a href="/cart/delCart?goods_id=<%=cartList[i]._id%>&color=<%=cartList[i].color%>" class="delete">
+                    删除</a></span>
+              </td>
+            </tr>
+
+            <%}%>
+        </table>
       </div>
-      <div class="jiesuan fr">
-        <div class="jiesuanjiage fl">合计（不含运费）：<span id="allPrice">
-            <%=allPrice%>元
-          </span></div>
-        <div class="jsanniu fr"><input class="jsan" type="submit" name="jiesuan" value="去结算" /></div>
+      <div class="jiesuandan mt20 center">
+        <div class="tishi fl ml20">
+          <ul>
+            <li><a href="./liebiao.html">继续购物</a></li>
+            <li>|</li>
+            <li>共
+              <span class="allgoodsnum">
+                0
+              </span>件商品，已选择
+              <span class="allchecknum">
+                <%=allCheckNum%>
+              </span>件
+            </li>
+            <div class="clear"></div>
+          </ul>
+        </div>
+        <div class="jiesuan fr">
+          <div class="jiesuanjiage fl">合计（不含运费）：<span id="allPrice">
+              <%=allPrice%>元
+            </span></div>
+          <div class="jsanniu fr"><input class="jsan" type="submit" name="jiesuan" id="checkout" value="去结算" /></div>
+          <div class="clear"></div>
+        </div>
         <div class="clear"></div>
       </div>
-      <div class="clear"></div>
+
     </div>
+    <%}else{%>
+      <p style="text-align: center; color: red; margin-top: 100px;margin-bottom: 100px;">您的购物车空空的...</p>
+      <%}%>
 
-  </div>
-  <%- include ('../public/page_footer.ejs')%>
-    </body>
 
-    </html>
+        <script>
+          $(function () {
+            $('#checkout').click(function () {
+              var allPrice = parseFloat($('#allPrice').html())
+              if (allPrice == 0) {
+                toastr.warning('购物车没有选中去结算的商品')
+              } else {
+                location.href = "/buy/checkout";
+              }
+            })
+          })
+        </script>
+        <%- include ('../public/page_footer.ejs')%>
+          </body>
+
+          </html>

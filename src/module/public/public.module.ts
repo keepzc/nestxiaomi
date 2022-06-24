@@ -17,6 +17,7 @@ import { NavSchema } from '../../schema/nav.schema';
 import { SettingSchema } from '../../schema/setting.schema';
 import { UserSchema } from '../../schema/user.schema';
 import { UserTempSchema } from '../../schema/user_temp.schema';
+import { AddressSchema } from '../../schema/address.schema';
 
 import { AdminService } from '../../service/admin/admin.service';
 import { RoleService } from '../../service/role/role.service';
@@ -38,6 +39,7 @@ import { CookieService } from '../../service/cookie/cookie.service';
 import { CartService } from '../../service/cart/cart.service';
 import { UserService } from '../../service/user/user.service';
 import { UserTempService } from '../../service/user-temp/user-temp.service';
+import { AddressService } from '../../service/address/address.service';
 //引入redis 模块
 import { RedisModule } from 'nestjs-redis';
 import { Config } from '../../config/config';
@@ -125,6 +127,11 @@ import { Config } from '../../config/config';
         schema: UserTempSchema,
         collection: 'userTemp',
       },
+      {
+        name: 'Address',
+        schema: AddressSchema,
+        collection: 'address',
+      },
     ]),
   ],
   providers: [
@@ -148,6 +155,7 @@ import { Config } from '../../config/config';
     CartService,
     UserService,
     UserTempService,
+    AddressService,
   ],
   //暴露服务
   exports: [
@@ -171,6 +179,7 @@ import { Config } from '../../config/config';
     CartService,
     UserService,
     UserTempService,
+    AddressService,
   ],
 })
 export class PublicModule {}

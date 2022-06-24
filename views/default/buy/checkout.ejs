@@ -3,8 +3,10 @@
 
   <link rel="stylesheet" href="/default/css/checkout.css" />
   <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/default/css/toastr.min.css">
   <script src="/default/js/bootstrap.min.js"></script>
-
+  <script src="/default/js/toastr.min.js"></script>
+  <script src="/default/js/checkout.js"></script>
   <!-- start banner_x -->
   <div class="banner_x center clearfix mt20">
     <a href="/" target="_blank">
@@ -23,19 +25,30 @@
       <div class="section-body clearfix" id="J_addressList">
         <!-- addresslist begin -->
         <div id="addressList">
-          <div class="address-item J_addressItem">
-            <dl>
-              <dt> <em class="uname">张三</em> </dt>
-              <dd class="utel">152016856211</dd>
-              <dd class="uaddress"> 北京市海淀区西二旗xxx </dd>
-            </dl>
-            <div class="actions">
-              <a href="javascript:void(0);" class="modify addressModify">修改</a>
+          <%for(var i=0;i<addressList.length;i++){%>
+            <div class="address-item J_addressItem  <%if(addressList[i].default_address){%>selected <%}%>"
+              data-id="<%=addressList[i]._id%>">
+              <dl>
+                <dt>
+                  <em class="uname">
+                    <%=addressList[i].name%>
+                  </em>
+                </dt>
+                <dd class="utel">
+                  <%=addressList[i].phone%>
+                </dd>
+                <dd class="uaddress">
+                  <%=addressList[i].address%>
+                </dd>
+              </dl>
+              <div class="actions" data-id="<%=addressList[i]._id%>">
+                <a href="javascript:void(0);" class="modify addressModify">修改</a>
+              </div>
             </div>
-          </div>
+            <%}%>
         </div>
         <!-- addresslist end -->
-        <div class="address-item address-item-new" id="J_newAddress" data-toggle="modal" data-target="#myModal">
+        <div class="address-item address-item-new" id="J_newAddress" data-toggle="modal" data-target="#addModal">
           <i class="iconfont">+</i> 添加新地址
         </div>
       </div>
@@ -183,28 +196,8 @@
       </div>
     </div>
   </div>
-
-
-
-  <script>
-
-    $(function () {
-
-
-      $('#addAddress').click(function () {
-        var name = $('#add_name').val();
-        var phone = $('#add_phone').val();
-        var address = $('#add_address').val();
-        var zipcode = $('#add_zipcode').val();
-        if (name == '' || phone == "" || address == "") {
-          return false;
-        }
-      })
-    })
-  </script>
-
   <!-- 收货地址增加 -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -241,7 +234,44 @@
       </div>
     </div>
   </div>
+  <!-- 修改收货地址 -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">修改收货地址</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
 
+            <input type="hidden" name="id" id="edit_id" />
+            <input type="text" name="name" id="edit_name" class="form-control" placeholder="姓名">
+
+          </div>
+          <div class="form-group">
+            <input type="text" name="phone" id="edit_phone" class="form-control" placeholder="电话">
+          </div>
+
+          <div class="form-group">
+            <textarea name="address" id="edit_address" class="form-control" cols="78" rows="4"
+              placeholder="详细地址"></textarea>
+          </div>
+
+          <div class="form-group">
+            <input type="text" name="zipcode" id="edit_zipcode" class="form-control" placeholder="邮政编码">
+          </div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-primary" id="doEditAddress">执行修改</button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <!-- footer -->
