@@ -15,7 +15,9 @@
     <div class="wdgwc fl ml40">确认订单 </div>
   </div>
 
-  <form action="/buy/doOrder" method="post" id="checkout">
+  <form action="/buy/doOrder" method="post" id="checkoutForm">
+    <!--设置签名防止重复提交订单-->
+    <input type="hidden" value="<%=orderSign%>" name="orderSign" />
     <div class="checkout-box">
       <div class="section section-address">
         <div class="section-header clearfix">

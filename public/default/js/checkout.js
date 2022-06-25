@@ -5,11 +5,12 @@
       this.changeDefaultAddress();
       this.editAddress();
       this.doEditAddress();
+      this.onSubmit();
     },
     //选择一个地址默认地址
     changeDefaultAddress: function () {
       //注意这里绑定事件需要用事件委托
-      $('#addressList .J_addressItem').on('click', function () {
+      $('#addressList ').on('click', '.J_addressItem', function () {
         // console.log(this);
         $(this).addClass('selected').siblings().removeClass('selected');
 
@@ -25,6 +26,23 @@
             }
           },
         );
+      });
+    },
+    //提交订单验证是否有收货地址
+    onSubmit: function () {
+      //防止重复提交
+      var flag = true;
+      $('#checkoutForm').submit(function () {
+        if (flag) {
+          flag = false;
+          var addressCount = $('#addressList .address-item.selected').length;
+          if (addressCount > 0) {
+            return true;
+          }
+          toastr.warning('请设置,并选择收货地址');
+          return false;
+        }
+        return false;
       });
     },
     //弹出编辑框

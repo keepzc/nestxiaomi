@@ -27,6 +27,11 @@ export class BuyController {
   async checkout(@Query() query, @Request() req, @Response() res) {
     const orderList = [];
     let allPrice = 0;
+    //生成签名防止重复提交订单
+    const orderSign = this.toolsService.getMd5(
+      this.toolsService.getRandomNum(),
+    );
+    req.session.orderSign = orderSign;
     const cartList = this.cookieService.get(req, 'cartList');
     if (cartList && cartList.length > 0) {
       for (let i = 0; i < cartList.length; i++) {
@@ -47,6 +52,7 @@ export class BuyController {
           orderList: orderList,
           allPrice: allPrice,
           addressList: addressResult,
+          orderSign: orderSign,
         });
       }
     } else {
@@ -58,18 +64,36 @@ export class BuyController {
   @Get('confirm')
   async confirm(@Query() query, @Response() res) {
     const id = query.id;
-    res.send('获取订单信息-去支付');
+    const orderResult = await this.orderService.find({ _id: id });
+    if (orderResult && orderResult.length > 0) {
+      //获取商品
+      const orderItemResult = await this.orderItemService.find({
+        order_id: id,
+      });
+      await res.render('default/buy/confirm', {
+        orderResult: orderResult[0],
+        orderItemResult: orderItemResult,
+      });
+    } else {
+      res.redirect('/');
+    }
   }
 
   //提交订单
   @Post('doOrder')
-  async doOrder(@Query() query, @Request() req, @Response() res) {
+  async doOrder(@Query() query, @Request() req, @Response() res, @Body() body) {
     /*
       1、获取收货地址信息
       2、获取购买商品的信息
       3、把订单信息放在订单表，把商品信息放在商品表
       4、删除购物车里面的选中数据
     */
+    //防止重复提交
+    if (body.orderSign != req.session.orderSign) {
+      res.redirect('/cart');
+      return false;
+    }
+    req.session.orderSign = null;
     const uid = this.cookieService.get(req, 'userinfo')._id;
     const addressResult = await this.addressService.find({
       uid: uid,
