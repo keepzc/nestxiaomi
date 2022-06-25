@@ -1,6 +1,6 @@
 export interface OrderInterface {
   _id?: string;
-  uid?: string;
+  uid?: any;
   all_price?: number;
   order_id?: string;
   name?: string;

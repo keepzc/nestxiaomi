@@ -144,7 +144,7 @@ import { Config } from '../../config/config';
       {
         name: 'OrderItem',
         schema: OrderItemSchema,
-        collection: 'orderItem',
+        collection: 'order_item',
       },
     ]),
   ],

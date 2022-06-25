@@ -123,6 +123,7 @@ export class BuyController {
       const pay_type = '';
       const order_status = 0;
       const orderResult = await this.orderService.add({
+        uid,
         order_id,
         name,
         phone,
@@ -136,6 +137,7 @@ export class BuyController {
       if (orderResult && orderResult._id) {
         for (let i = 0; i < orderList.length; i++) {
           const json = {
+            uid: uid,
             order_id: orderResult._id, //订单id
             product_title: orderList[i].title,
             product_id: orderList[i]._id,

@@ -66,6 +66,10 @@ export class AppModule implements NestModule {
           path: '/buy/*',
           method: RequestMethod.GET,
         },
+        {
+          path: '/user/*',
+          method: RequestMethod.GET,
+        },
       )
       .apply(UserauthMiddleware)
       .forRoutes(

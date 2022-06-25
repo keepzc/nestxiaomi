@@ -1,17 +1,12 @@
 (function ($) {
   'use strict';
-
   $.jqPaginator = function (el, options) {
     if (!(this instanceof $.jqPaginator)) {
       return new $.jqPaginator(el, options);
     }
-
     var self = this;
-
     self.$container = $(el);
-
     self.$container.data('jqPaginator', self);
-
     self.init = function () {
       if (
         options.first ||
