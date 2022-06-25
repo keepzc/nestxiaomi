@@ -4,6 +4,7 @@ import { NavService } from '../service/nav/nav.service';
 import { GoodsService } from '../service/goods/goods.service';
 import { CacheService } from '../service/cache/cache.service';
 import { GoodsCateService } from '../service/goods-cate/goods-cate.service';
+import { CookieService } from '../service/cookie/cookie.service';
 @Injectable()
 export class DefaultMiddleware implements NestMiddleware {
   constructor(
@@ -11,8 +12,11 @@ export class DefaultMiddleware implements NestMiddleware {
     private goodsCateService: GoodsCateService,
     private goodsService: GoodsService,
     private cacheService: CacheService,
+    private cookieService: CookieService,
   ) {}
   async use(req: any, res: any, next: () => void) {
+    //保存用户信息
+    res.locals.userinfo = this.cookieService.get(req, 'userinfo');
     //顶部导航
     let topNavResult = await this.cacheService.get('indexTopNav');
     if (!topNavResult) {
