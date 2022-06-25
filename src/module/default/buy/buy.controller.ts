@@ -70,5 +70,68 @@ export class BuyController {
       3、把订单信息放在订单表，把商品信息放在商品表
       4、删除购物车里面的选中数据
     */
+    const uid = this.cookieService.get(req, 'userinfo')._id;
+    const addressResult = await this.addressService.find({
+      uid: uid,
+      default_address: 1,
+    });
+    const cartList = this.cookieService.get(req, 'cartList');
+    let all_price = 0;
+    if (
+      addressResult &&
+      addressResult.length > 0 &&
+      cartList &&
+      cartList.length > 0
+    ) {
+      const orderList = cartList.filter((item) => {
+        if (item.checked) {
+          all_price += item.num * item.price;
+          return item;
+        }
+      });
+      //执行提交订单
+      const order_id = await this.toolsService.getOrderId();
+      const name = addressResult[0].name;
+      const phone = addressResult[0].phone;
+      const address = addressResult[0].address;
+      const zipcode = addressResult[0].zipcode;
+      const pay_status = 0;
+      const pay_type = '';
+      const order_status = 0;
+      const orderResult = await this.orderService.add({
+        order_id,
+        name,
+        phone,
+        address,
+        zipcode,
+        pay_status,
+        order_status,
+        pay_type,
+        all_price,
+      });
+      if (orderResult && orderResult._id) {
+        for (let i = 0; i < orderList.length; i++) {
+          const json = {
+            order_id: orderResult._id, //订单id
+            product_title: orderList[i].title,
+            product_id: orderList[i]._id,
+            product_img: orderList[i].goods_img,
+            product_price: orderList[i].price,
+            product_num: orderList[i].num,
+          };
+          await this.orderItemService.add(json);
+        }
+      } else {
+        res.redirect('/buy/checkout');
+        return;
+      }
+      //删除购物车数据
+      const unCheckedCartList = cartList.filter((item) => !item.checked);
+      this.cookieService.set(res, 'cartList', unCheckedCartList);
+      res.redirect('/buy/confirm?id=' + orderResult._id);
+    } else {
+      //非法请求
+      res.redirect('/buy/checkout');
+    }
   }
 }

@@ -47,6 +47,13 @@ export class ToolsService {
     }
     return random_str;
   }
+  //订单如何生成
+  getOrderId() {
+    const nowTime = this.getTime();
+    const randomNum = this.getRandomNum();
+    return nowTime.toString() + randomNum.toString();
+  }
+
   //获取年月日
   getDay() {
     const day = format(new Date(), 'YYYYMMDD');
