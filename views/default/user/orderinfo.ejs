@@ -22,7 +22,7 @@
               <div class="uc-content-box order-view-box">
                 <div class="box-hd">
                   <div class="more clearfix">
-                    <h2 class="subtitle">订单号：1160529723001145 <span class="tag tag-subsidy"></span>
+                    <h2 class="subtitle">订单号：<%=orderInfo.order_id%> <span class="tag tag-subsidy"></span>
                     </h2>
                     <div class="actions">
                       <a title="申请售后" href="http://service.order.mi.com/apply/order/id/1160529723001145"
@@ -78,32 +78,32 @@
 
                       <table class="order-items-table">
                         <tbody>
-                          <tr>
-                            <td class="col col-thumb">
-                              <div class="figure figure-thumb">
-                                <a target="_blank" href="//item.mi.com/1152800035.html" data-stat-id="4fcf11746c0ff4cf"
-                                  onclick="_msq.push(['trackEvent', '4a854694de3347de-4fcf11746c0ff4cf', '//item.mi.com/1152800035.html', 'pcpid', '']);">
-                                  <img src="//i1.mifile.cn/a1/T19OV_BgKT1RXrhCrK!80x80.jpg" width="80" height="80"
-                                    alt="">
-                                </a>
-                              </div>
-                            </td>
-                            <td class="col col-name">
-                              <p class="name">
-                                <a target="_blank" href="//item.mi.com/1152800035.html" data-stat-id="48ddec30ff490c01"
-                                  onclick="_msq.push(['trackEvent', '4a854694de3347de-48ddec30ff490c01', '//item.mi.com/1152800035.html', 'pcpid', '']);">小米水质TDS检测笔
-                                  白色</a>
-
-                              </p>
-                            </td>
-                            <td class="col col-price">
-                              <p class="price">39元 × 1</p>
-                            </td>
-                            <td class="col col-actions">
-
-                            </td>
-                          </tr>
-
+                          <%for(var j=0;j<orderInfo.orderItems.length;j++){%>
+                            <tr>
+                              <td class="col col-thumb">
+                                <div class="figure figure-thumb">
+                                  <a target="_blank" href="#">
+                                    <img src="/<%=orderInfo.orderItems[j].product_img%>" width="80" height="80" alt="">
+                                  </a>
+                                </div>
+                              </td>
+                              <td class="col col-name">
+                                <p class="name">
+                                  <a target="_blank" href="#">
+                                    <%=orderInfo.orderItems[j].product_title%>
+                                  </a>
+                                </p>
+                              </td>
+                              <td class="col col-price">
+                                <p class="price">
+                                  <%=orderInfo.orderItems[j].product_price%>元 ×
+                                    <%=orderInfo.orderItems[j].product_num%>
+                                </p>
+                              </td>
+                              <td class="col col-actions">
+                              </td>
+                            </tr>
+                            <%}%>
                         </tbody>
                       </table>
                     </div>
@@ -117,15 +117,19 @@
                         <tbody>
                           <tr>
                             <th>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</th>
-                            <td>xxxx</td>
+                            <td>
+                              <%=orderInfo.phone%>
+                            </td>
                           </tr>
                           <tr>
                             <th>联系电话：</th>
-                            <td>150****5801</td>
+                            <%=orderInfo.phone%>
                           </tr>
                           <tr>
                             <th>收货地址：</th>
-                            <td>陕西 延安市 宝塔区 蟠龙镇 枣园村</td>
+                            <td>
+                              <%=orderInfo.address%>
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -176,15 +180,19 @@
                         <tbody>
                           <tr>
                             <th>商品总价：</th>
-                            <td><span class="num">39.00</span>元</td>
+                            <td><span class="num">
+                                <%=allPrice%>
+                              </span>元</td>
                           </tr>
                           <tr>
                             <th>运费：</th>
-                            <td><span class="num">10</span>元</td>
+                            <td><span class="num">0</span>元</td>
                           </tr>
                           <tr>
                             <th class="total">实付金额：</th>
-                            <td class="total"><span class="num">49.00</span>元</td>
+                            <td class="total"><span class="num">
+                                <%=allPrice%>
+                              </span>元</td>
                           </tr>
 
                         </tbody>

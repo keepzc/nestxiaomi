@@ -79,10 +79,23 @@ export class UserController {
       keywords,
     };
   }
-
+  //订单详情获取
   @Get('orderinfo')
   @Render('default/user/orderinfo')
-  orderInfo() {
-    return {};
+  async orderInfo(@Request() req) {
+    const id = req.query.id;
+    let allPrice = 0;
+    let orderResult = await this.orderService.find({ _id: id });
+    orderResult = JSON.parse(JSON.stringify(orderResult));
+    orderResult[0]['orderItems'] = await this.orderItemService.find({
+      order_id: id,
+    });
+    orderResult[0]['orderItems'].forEach((item) => {
+      allPrice += item.product_price * item.product_num;
+    });
+    return {
+      orderInfo: orderResult[0],
+      allPrice,
+    };
   }
 }
