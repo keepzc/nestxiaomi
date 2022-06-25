@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { AdminSchema } from '../../schema/admin.schema';
 import { RoleSchema } from '../../schema/role.schema';
 import { AccessSchema } from '../../schema/access.schema';
@@ -44,11 +44,15 @@ import { UserTempService } from '../../service/user-temp/user-temp.service';
 import { AddressService } from '../../service/address/address.service';
 import { OrderService } from '../../service/order/order.service';
 import { OrderItemService } from '../../service/order-item/order-item.service';
+import { SearchService } from '../../service/search/search.service';
 //引入redis 模块
 import { RedisModule } from 'nestjs-redis';
 import { Config } from '../../config/config';
 @Module({
   imports: [
+    ElasticsearchModule.register({
+      node: 'http://localhost:9200',
+    }),
     RedisModule.register(Config.redisOptions),
     MongooseModule.forFeature([
       {
@@ -172,6 +176,7 @@ import { Config } from '../../config/config';
     AddressService,
     OrderService,
     OrderItemService,
+    SearchService,
   ],
   //暴露服务
   exports: [
@@ -198,6 +203,7 @@ import { Config } from '../../config/config';
     AddressService,
     OrderService,
     OrderItemService,
+    SearchService,
   ],
 })
 export class PublicModule {}

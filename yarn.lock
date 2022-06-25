@@ -363,6 +363,26 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
+"@elastic/elasticsearch@^7.4.0 || ^8.0.0", "@elastic/elasticsearch@^8.2.1":
+  "integrity" "sha512-Kwerd8DfNZdBGgl7fkn+20kXkw1QePB3goTv5QwW9poo2d4VbPE0EChmh6irpXWAGsVSYiKr8x6bh8dH5YdylA=="
+  "resolved" "https://registry.npmjs.org/@elastic/elasticsearch/-/elasticsearch-8.2.1.tgz"
+  "version" "8.2.1"
+  dependencies:
+    "@elastic/transport" "^8.2.0"
+    "tslib" "^2.4.0"
+
+"@elastic/transport@^8.2.0":
+  "integrity" "sha512-H/HmefMNQfLiBSVTmNExu2lYs5EzwipUnQB53WLr17RCTDaQX0oOLHcWpDsbKQSRhDAMPPzp5YZsZMJxuxPh7A=="
+  "resolved" "https://registry.npmjs.org/@elastic/transport/-/transport-8.2.0.tgz"
+  "version" "8.2.0"
+  dependencies:
+    "debug" "^4.3.4"
+    "hpagent" "^1.0.0"
+    "ms" "^2.1.3"
+    "secure-json-parse" "^2.4.0"
+    "tslib" "^2.4.0"
+    "undici" "^5.1.1"
+
 "@eslint/eslintrc@^1.2.3":
   "integrity" "sha512-uGo44hIwoLGNyduRpjdEpovcbMdd+Nv7amtmJxnKmI8xj6yd5LncmSwDa5NgX/41lIFJtkjD6YdVfgEzPfJ5UA=="
   "resolved" "https://registry.npmjs.org/@eslint/eslintrc/-/eslintrc-1.2.3.tgz"
@@ -957,6 +977,11 @@
     "path-to-regexp" "3.2.0"
     "tslib" "2.4.0"
     "uuid" "8.3.2"
+
+"@nestjs/elasticsearch@^8.1.0":
+  "integrity" "sha512-Ub5p5/D006017SCbygSbStvJ3yt8xYiT5jN/Rbt42d8bkQcr5xhY0iaPfFHPFA1s2Bc6QlVBKbguo++mIhFenQ=="
+  "resolved" "https://registry.npmjs.org/@nestjs/elasticsearch/-/elasticsearch-8.1.0.tgz"
+  "version" "8.1.0"
 
 "@nestjs/mongoose@^9.0.3":
   "integrity" "sha512-y3M4LKVUP28HSp7hO7dXGvhs4PzpVI6LyIDqunlnzDdQhWtqaaxhW7VomqY8esOSv7otpF1v/vcCvoQVtSW4qA=="
@@ -3432,6 +3457,11 @@
   "resolved" "https://registry.npmjs.org/hexoid/-/hexoid-1.0.0.tgz"
   "version" "1.0.0"
 
+"hpagent@^1.0.0":
+  "integrity" "sha512-SCleE2Uc1bM752ymxg8QXYGW0TWtAV4ZW3TqH1aOnyi6T6YW2xadCcclm5qeVjvMvfQ2RKNtZxO7uVb9CTPt1A=="
+  "resolved" "https://registry.npmjs.org/hpagent/-/hpagent-1.0.0.tgz"
+  "version" "1.0.0"
+
 "html-encoding-sniffer@^2.0.1":
   "integrity" "sha512-D5JbOMBIR/TVZkubHT+OyT2705QvogUW4IBn6nHd756OwieSF9aDYFj4dv6HHEVGYbHaLETa3WggZYWWMyy3ZQ=="
   "resolved" "https://registry.npmjs.org/html-encoding-sniffer/-/html-encoding-sniffer-2.0.1.tgz"
@@ -4717,6 +4747,11 @@
   "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
   "version" "2.1.2"
 
+"ms@^2.1.3":
+  "integrity" "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
+  "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
+  "version" "2.1.3"
+
 "ms@2.0.0":
   "resolved" "file:node_modules/_ms@2.0.0@ms"
   "version" "2.0.0"
@@ -5494,7 +5529,7 @@
   dependencies:
     "queue-microtask" "^1.2.2"
 
-"rxjs@^6.0.0 || ^7.0.0", "rxjs@^7.1.0", "rxjs@^7.2.0":
+"rxjs@^6.0.0 || ^7.0.0", "rxjs@^6.2.1 || ^7.2.0", "rxjs@^7.1.0", "rxjs@^7.2.0":
   "integrity" "sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw=="
   "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.5.tgz"
   "version" "7.5.5"
@@ -5564,6 +5599,11 @@
     "@types/json-schema" "^7.0.8"
     "ajv" "^6.12.5"
     "ajv-keywords" "^3.5.2"
+
+"secure-json-parse@^2.4.0":
+  "integrity" "sha512-Q5Z/97nbON5t/L/sH6mY2EacfjVGwrCcSi5D3btRO2GZ8pf1K1UN7Z9H5J57hjVU2Qzxr1xO+FmBhOvEkzCMmg=="
+  "resolved" "https://registry.npmjs.org/secure-json-parse/-/secure-json-parse-2.4.0.tgz"
+  "version" "2.4.0"
 
 "semver@^5.0.1":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
@@ -6184,7 +6224,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2.0.1", "tslib@^2.1.0", "tslib@2.4.0":
+"tslib@^2.0.1", "tslib@^2.1.0", "tslib@^2.4.0", "tslib@2.4.0":
   "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
   "version" "2.4.0"
@@ -6289,6 +6329,11 @@
   "version" "2.1.5"
   dependencies:
     "random-bytes" "~1.0.0"
+
+"undici@^5.1.1":
+  "integrity" "sha512-MEvryPLf18HvlCbLSzCW0U00IMftKGI5udnjrQbC5D4P0Hodwffhv+iGfWuJwg16Y/TK11ZFK8i+BPVW2z/eAw=="
+  "resolved" "https://registry.npmjs.org/undici/-/undici-5.5.1.tgz"
+  "version" "5.5.1"
 
 "unescape@^1.0.1":
   "integrity" "sha512-O0+af1Gs50lyH1nUu3ZyYS1cRh01Q/kUKatTOkSs7jukXE6/NebucDVxyiDsA9AQ4JC1V1jUH9EO8JX2nMDgGQ=="

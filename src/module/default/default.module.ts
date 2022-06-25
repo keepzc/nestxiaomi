@@ -11,6 +11,7 @@ import { ProductController } from './product/product.controller';
 import { CategoryController } from './category/category.controller';
 import { AlipayController } from './alipay/alipay.controller';
 import { WxpayController } from './wxpay/wxpay.controller';
+import { SearchController } from './search/search.controller';
 @Module({
   imports: [PublicModule],
   controllers: [
@@ -24,6 +25,7 @@ import { WxpayController } from './wxpay/wxpay.controller';
     CategoryController,
     AlipayController,
     WxpayController,
+    SearchController,
   ],
 })
 export class DefaultModule {}
