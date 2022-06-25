@@ -9,6 +9,7 @@ import { PassController } from './pass/pass.controller';
 import { CartController } from './cart/cart.controller';
 import { ProductController } from './product/product.controller';
 import { CategoryController } from './category/category.controller';
+import { AlipayController } from './alipay/alipay.controller';
 @Module({
   imports: [PublicModule],
   controllers: [
@@ -20,6 +21,7 @@ import { CategoryController } from './category/category.controller';
     CartController,
     ProductController,
     CategoryController,
+    AlipayController,
   ],
 })
 export class DefaultModule {}
