@@ -27,6 +27,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "alipay-mobile": "2.2.7",
     "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
     "ejs": "^3.1.8",
     "express-session": "^1.17.3",
     "express-xml-bodyparser": "^0.3.0",
@@ -35,12 +36,15 @@
     "mkdirp": "^1.0.4",
     "mongoose": "^6.3.3",
     "nestjs-redis": "^1.2.2",
+    "qr-image": "^3.2.0",
     "reflect-metadata": "^0.1.13",
+    "request": "^2.88.2",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "showdown": "^2.1.0",
     "silly-datetime": "^0.1.2",
-    "svg-captcha": "^1.4.0"
+    "svg-captcha": "^1.4.0",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

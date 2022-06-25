@@ -10,6 +10,7 @@ import { CartController } from './cart/cart.controller';
 import { ProductController } from './product/product.controller';
 import { CategoryController } from './category/category.controller';
 import { AlipayController } from './alipay/alipay.controller';
+import { WxpayController } from './wxpay/wxpay.controller';
 @Module({
   imports: [PublicModule],
   controllers: [
@@ -22,6 +23,7 @@ import { AlipayController } from './alipay/alipay.controller';
     ProductController,
     CategoryController,
     AlipayController,
+    WxpayController,
   ],
 })
 export class DefaultModule {}
