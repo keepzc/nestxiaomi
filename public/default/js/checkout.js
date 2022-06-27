@@ -11,7 +11,7 @@
     changeDefaultAddress: function () {
       //注意这里绑定事件需要用事件委托
       $('#addressList ').on('click', '.J_addressItem', function () {
-        // console.log(this);
+        console.log(this, '----');
         $(this).addClass('selected').siblings().removeClass('selected');
 
         var id = $(this).attr('data-id');
@@ -47,10 +47,11 @@
     },
     //弹出编辑框
     editAddress: function () {
-      $('.modify').click(function () {
+      $('.modify').click(function (e) {
         $('#editModal').modal('show');
-
         var id = $(this).parent().attr('data-id');
+        //阻止事件冒泡
+        e.stopPropagation();
         $.get('/user/address/getOneAddressList?id=' + id, function (response) {
           if (response.success) {
             var addressInfo = response.result;
@@ -144,6 +145,9 @@
               }
               //增加
               $('#addressList').html(str);
+              $(function () {
+                app.init();
+              });
               toastr.success(response.msg);
             } else {
               toastr.error('修改失败');

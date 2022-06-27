@@ -25,6 +25,7 @@ h6 {
 }
 body.login_page {
   background: rgb(20, 33, 42);
+  position: relative;
 }
 body.register_page {
   background: #eee;
@@ -83,13 +84,16 @@ input:focus {
   background: url('../image/login_bg.jpg') no-repeat center center;
 }
 .login {
+  padding: 0 20px;
   width: 400px;
-  height: 470px; /*border:1px solid #ff6700;*/
-  margin: 30px 1300px;
+  height: 470px;
+  border: 1px solid #ff6700;
   background: #444;
   color: #fff;
-  margin-right: 0px;
   border-radius: 4px;
+  position: absolute;
+  right: 30px;
+  top: 200px;
 }
 .login .login_center {
   width: 360px;
@@ -296,6 +300,10 @@ input:focus {
 }
 
 footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 80px;
   background: #fff;
