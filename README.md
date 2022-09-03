@@ -36,8 +36,14 @@ $ npm install
 
 ```bash
 # development
+# nestjs8
 $ npm run start
-
+启动项目报错 
+#Nest can't resolve dependencies of the RedisCoreModule (Symbol(REDIS_MODULE_OPTIONS), ?)
+请安装指定版本的 nestjs-redis:
+cnpm install nestjs-redis@1.2.2 --save
+如果有疑问参考：
+https://github.com/skunight/nestjs-redis/issues/97
 # watch mode
 $ npm run start:dev
 
@@ -59,7 +65,8 @@ $ npm run test:cov
 ```
 
 ## Support
-
+## 安装依赖注意
+支持nodejs 版本16.xx.x 以上
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
