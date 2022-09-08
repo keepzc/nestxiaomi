@@ -37,7 +37,7 @@
     "md5": "^2.3.0",
     "mkdirp": "^1.0.4",
     "mongoose": "^6.3.3",
-    "nestjs-redis": "^1.2.2",
+    "nestjs-redis": "1.2.2",
     "qr-image": "^3.2.0",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
